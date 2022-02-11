@@ -15,7 +15,7 @@ final class WorldType{
 			"flat" => self::FLAT,
 			"largebiomes", "large_biomes" => self::LARGE_BIOMES,
 			"normal" => self::NORMAL,
-			default => throw new InvalidArgumentException("Could not convert string \"{$string}\" to a " . self::class . " constant")
+			default => throw new InvalidArgumentException("Could not convert string \"$string\" to a " . self::class . " constant")
 		};
 	}
 

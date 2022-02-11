@@ -13,7 +13,7 @@ final class Environment{
 			"overworld" => self::OVERWORLD,
 			"nether" => self::NETHER,
 			"end", "the_end" => self::THE_END,
-			default => throw new InvalidArgumentException("Could not convert string \"{$string}\" to a " . self::class . " constant")
+			default => throw new InvalidArgumentException("Could not convert string \"$string\" to a " . self::class . " constant")
 		};
 	}
 

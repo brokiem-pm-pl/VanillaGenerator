@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpIfWithCommonPartsInspection */
+/** @noinspection PhpIfWithCommonPartsInspection */
 
 declare(strict_types=1);
 
@@ -112,10 +113,7 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 			$xin += $this->offset_x;
 			$yin += $this->offset_y;
 
-			// Noise contributions from the three corners
-			$n0 = 0.0;
-			$n1 = 0.0;
-			$n2 = 0.0;
+			// n0, n1, n2 - Noise contributions from the three corners
 
 			// Skew the input space to determine which simplex cell we're in
 			$s = ($xin + $yin) * self::F2; // Hairy factor for 2D
@@ -131,10 +129,7 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 
 			// Determine which simplex we are in.
 
-			// Offsets for second (middle) corner of simplex in (i,j) coords
-			$i1 = 0;
-			$j1 = 0;
-
+			// i1, j2 - Offsets for second (middle) corner of simplex in (i,j) coords
 			if($x0 > $y0){ // lower triangle, XY order: (0,0)->(1,0)->(1,1)
 				$i1 = 1;
 				$j1 = 0;
@@ -193,11 +188,7 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 		$yin += $this->offset_y;
 		$zin += $this->offset_z;
 
-		// Noise contributions from the four corners
-		$n0 = 0.0;
-		$n1 = 0.0;
-		$n2 = 0.0;
-		$n3 = 0.0;
+		// n0, n1, n2, n3 - Noise contributions from the four corners
 
 		// Skew the input space to determine which simplex cell we're in
 		$s = ($xin + $yin + $zin) * self::F3; // Very nice and simple skew factor for 3D
@@ -216,15 +207,8 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 
 		// Determine which simplex we are in.
 
-		// Offsets for second corner of simplex in (i,j,k) coords
-		$i1 = 0;
-		$j1 = 0;
-		$k1 = 0;
-
-		// Offsets for third corner of simplex in (i,j,k) coords
-		$i2 = 0;
-		$j2 = 0;
-		$k2 = 0;
+		// i1, j1, k1 - Offsets for second corner of simplex in (i,j,k) coords
+		// i2, j2, k2 - Offsets for third corner of simplex in (i,j,k) coords
 
 		if($x0 >= $y0){
 			if($y0 >= $z0){ // X Y Z order
@@ -351,12 +335,7 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 		$z += $this->offset_z;
 		$w += self::$offset_w;
 
-		// Noise contributions from the five corners
-		$n0 = 0.0;
-		$n1 = 0.0;
-		$n2 = 0.0;
-		$n3 = 0.0;
-		$n4 = 0.0;
+		// n0, n1, n2, n3, n5 - Noise contributions from the five corners
 
 		// Skew the (x,y,z,w) space to determine which cell of 24 simplices we're in
 		$s = ($x + $y + $z + $w) * self::F4; // Factor for 4D skewing
@@ -391,23 +370,9 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 		$c6 = ($z0 > $w0) ? 1 : 0;
 		$c = $c1 + $c2 + $c3 + $c4 + $c5 + $c6;
 
-		// The integer offsets for the second simplex corner
-		$i1 = 0;
-		$j1 = 0;
-		$k1 = 0;
-		$l1 = 0;
-
-		// The integer offsets for the third simplex corner
-		$i2 = 0;
-		$j2 = 0;
-		$k2 = 0;
-		$l2 = 0;
-
-		// The integer offsets for the fourth simplex corner
-		$i3 = 0;
-		$j3 = 0;
-		$k3 = 0;
-		$l3 = 0;
+		// i1, j1, k1, l1 - The integer offsets for the second simplex corner
+		// i2, j2, k2, l2 - The integer offsets for the third simplex corner
+		// i3, j3, k3, l3 - The integer offsets for the fourth simplex corner
 
 		// self::SIMPLEX[c] is a 4-vector with the numbers 0, 1, 2 and 3 in some order.
 		// Many values of c will never occur, since e.g. x>y>z>w makes x<z, y<w and x<w

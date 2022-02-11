@@ -84,7 +84,7 @@ class BigOakTree extends GenericTree{
 				$base = new Vector3($source_x, $node->branch_y, $source_z);
 				$leaf_node = new Vector3($node->x, $node->y, $node->z);
 				$branch = $leaf_node->subtractVector($base);
-				$max_distance = max(abs($branch->getFloorY()), max(abs($branch->getFloorX()), abs($branch->getFloorZ())));
+				$max_distance = max(abs($branch->getFloorY()), abs($branch->getFloorX()), abs($branch->getFloorZ()));
 				if($max_distance > 0){
 					$dx = (float) $branch->x / $max_distance;
 					$dy = (float) $branch->y / $max_distance;
@@ -107,7 +107,7 @@ class BigOakTree extends GenericTree{
 	private function countAvailableBlocks(Vector3 $from, Vector3 $to, ChunkManager $world) : int{
 		$n = 0;
 		$target = $to->subtractVector($from);
-		$max_distance = max(abs($target->getFloorY()), max(abs($target->getFloorX()), abs($target->getFloorZ())));
+		$max_distance = max(abs($target->getFloorY()), abs($target->getFloorX()), abs($target->getFloorZ()));
 		if($max_distance > 0){
 			$dx = (float) $target->x / $max_distance;
 			$dy = (float) $target->y / $max_distance;
@@ -138,15 +138,15 @@ class BigOakTree extends GenericTree{
 		$trunk_top_y = $block_y + $this->trunk_height;
 		$leaf_nodes[] = new LeafNode($block_x, $y, $block_z, $trunk_top_y);
 
-		$node_count = (int) (1.382 + ((static::LEAF_DENSITY * (double) ($this->height / 13.0)) ** 2.0));
-		$node_count = $node_count < 1 ? 1 : $node_count;
+		$node_count = (int) (1.382 + ((static::LEAF_DENSITY * ($this->height / 13.0)) ** 2.0));
+		$node_count = max($node_count, 1);
 
 		for($l = --$y - $block_y; $l >= 0; --$l, --$y){
 			$h = $this->height / 2.0;
 			$v = $h - $l;
 			$f = $l < ($this->height * 0.3) ? -1.0 : (
 			$v === $h ? $h * 0.5 : (
-			$h <= abs($v) ? 0.0 : (float) sqrt($h * $h - $v * $v) * 0.5
+			$h <= abs($v) ? 0.0 : sqrt($h * $h - $v * $v) * 0.5
 			)
 			);
 			if($f >= 0.0){

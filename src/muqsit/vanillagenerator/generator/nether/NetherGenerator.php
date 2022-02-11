@@ -10,7 +10,6 @@ use muqsit\vanillagenerator\generator\noise\glowstone\PerlinOctaveGenerator;
 use muqsit\vanillagenerator\generator\overworld\WorldType;
 use muqsit\vanillagenerator\generator\utils\MathHelper;
 use muqsit\vanillagenerator\generator\utils\NetherWorldOctaves;
-use muqsit\vanillagenerator\generator\utils\preset\GeneratorPreset;
 use muqsit\vanillagenerator\generator\utils\preset\SimpleGeneratorPreset;
 use muqsit\vanillagenerator\generator\VanillaBiomeGrid;
 use muqsit\vanillagenerator\generator\VanillaGenerator;
@@ -85,7 +84,7 @@ class NetherGenerator extends VanillaGenerator{
 
 		for($x = 0; $x < 16; ++$x){
 			for($z = 0; $z < 16; ++$z){
-				$chunk->setBiomeId($x, $z, $id = $biomes->getBiome($x, $z));
+				$chunk->setBiomeId($x, $z, $biomes->getBiome($x, $z));
 				$this->generateTerrainColumn($world, $cx + $x, $cz + $z, $surface_noise[$x | $z << 4], $soul_sand_noise[$x | $z << 4], $grave_noise[$x | $z << 4]);
 			}
 		}
@@ -192,7 +191,6 @@ class NetherGenerator extends VanillaGenerator{
 	 */
 	private function generateTerrainDensity(int $x, int $z) : array{
 		$octaves = $this->getWorldOctaves();
-		$height_noise = $octaves->height->getFractalBrownianMotion($x, 0, $z, 0.5, 2.0);
 		$roughness_noise = $octaves->roughness->getFractalBrownianMotion($x, 0, $z, 0.5, 2.0);
 		$roughness_noise_2 = $octaves->roughness_2->getFractalBrownianMotion($x, 0, $z, 0.5, 2.0);
 		$detail_noise = $octaves->detail->getFractalBrownianMotion($x, 0, $z, 0.5, 2.0);
@@ -213,25 +211,11 @@ class NetherGenerator extends VanillaGenerator{
 		}
 
 		$index = 0;
-		$index_height = 0;
 
 		$density = [];
 
 		for($i = 0; $i < 5; ++$i){
 			for($j = 0; $j < 5; ++$j){
-
-				$noise_h = $height_noise[$index_height++] / 8000.0;
-				if($noise_h < 0){
-					$noise_h = -$noise_h;
-				}
-				$noise_h = $noise_h * 3.0 - 3.0;
-				if($noise_h < 0){
-					$noise_h = max($noise_h * 0.5, -1) / 1.4 * 0.5;
-				}else{
-					$noise_h = min($noise_h, 1) / 6.0;
-				}
-
-				$noise_h = $noise_h * $k_max / 16.0;
 				for($k = 0; $k < $k_max; ++$k){
 					$noise_r = $roughness_noise[$index] / 512.0;
 					$noise_r_2 = $roughness_noise_2[$index] / 512.0;
@@ -295,7 +279,6 @@ class NetherGenerator extends VanillaGenerator{
 						$ground_mat = $block_nether_rack;
 						if($gravel){
 							$top_mat = $block_gravel;
-							$ground_mat = $block_nether_rack;
 						}
 						if($soul_sand){
 							$top_mat = $block_soul_sand;

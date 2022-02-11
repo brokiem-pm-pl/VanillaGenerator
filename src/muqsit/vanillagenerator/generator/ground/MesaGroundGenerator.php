@@ -54,7 +54,6 @@ class MesaGroundGenerator extends GroundGenerator{
 		$this->initialize($random->getSeed());
 		$sea_level = 64;
 
-		$top_mat = $this->top_material;
 		$ground_mat = $this->ground_material;
 
 		$surface_height = max((int) ($surface_noise / 3.0 + 3.0 + $random->nextFloat() * 0.25), 1);
@@ -104,8 +103,7 @@ class MesaGroundGenerator extends GroundGenerator{
 						$deep = $surface_height + max(0, $y - $sea_level - 1);
 						if($y >= $sea_level - 2){
 							if($this->type === self::FOREST && $y > $sea_level + 22 + ($surface_height << 1)){
-								$top_mat = $colored ? $grass : $coarse_dirt;
-								$world->setBlockAt($x, $y, $z, $top_mat);
+								$world->setBlockAt($x, $y, $z, $colored ? $grass : $coarse_dirt);
 							}elseif($y > $sea_level + 2 + $surface_height){
 								$color = $this->color_layer[($y + (int) round(
 										$this->color_noise->noise($chunk_x, $chunk_z, 0, 0.5, 2.0, false) * 2.0))

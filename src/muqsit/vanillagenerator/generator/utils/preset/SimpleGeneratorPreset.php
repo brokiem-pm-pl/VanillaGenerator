@@ -30,7 +30,7 @@ final class SimpleGeneratorPreset implements GeneratorPreset{
 		$data = [];
 		foreach(explode(",", $preset) as $entry){
 			if(!str_contains($entry, "=")){
-				throw new InvalidArgumentException("Preset is invalid: {$entry} must contain an '=' symbol");
+				throw new InvalidArgumentException("Preset is invalid: $entry must contain an '=' symbol");
 			}
 
 			[$key, $value] = explode("=", $entry);
@@ -67,7 +67,7 @@ final class SimpleGeneratorPreset implements GeneratorPreset{
 	public function getInt(string $property) : int{
 		$value = $this->get($property);
 		if(!is_int($value)){
-			throw new InvalidArgumentException("{$property} is not an integer");
+			throw new InvalidArgumentException("$property is not an integer");
 		}
 		return $value;
 	}
@@ -75,7 +75,7 @@ final class SimpleGeneratorPreset implements GeneratorPreset{
 	public function getFloat(string $property) : float{
 		$value = $this->get($property);
 		if(!is_float($value)){
-			throw new InvalidArgumentException("{$property} is not a float");
+			throw new InvalidArgumentException("$property is not a float");
 		}
 		return $value;
 	}
@@ -83,7 +83,7 @@ final class SimpleGeneratorPreset implements GeneratorPreset{
 	public function getString(string $property) : string{
 		$value = $this->get($property);
 		if(!is_string($value)){
-			throw new InvalidArgumentException("{$property} is not a string");
+			throw new InvalidArgumentException("$property is not a string");
 		}
 		return $value;
 	}
@@ -91,7 +91,7 @@ final class SimpleGeneratorPreset implements GeneratorPreset{
 	public function toString() : string{
 		$string = "";
 		foreach($this->data as $property => $value){
-			$string .= "{$property}={$value},";
+			$string .= "$property=$value,";
 		}
 		return rtrim($string, ",");
 	}

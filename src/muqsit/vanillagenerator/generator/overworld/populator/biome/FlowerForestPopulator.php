@@ -60,7 +60,7 @@ class FlowerForestPopulator extends ForestPopulator{
 			$z = $random->nextBoundedInt(16);
 			$y = $random->nextBoundedInt($chunk->getHighestBlockAt($x, $z) + 32);
 			$noise = ($this->noise_gen->noise($x, $z, 0.5, 0, 2.0, false) + 1.0) / 2.0;
-			$noise = $noise < 0 ? 0 : ($noise > 0.9999 ? 0.9999 : $noise);
+			$noise = $noise < 0 ? 0 : (min($noise, 0.9999));
 			$flower = self::$FLOWERS[(int) ($noise * count(self::$FLOWERS))];
 			(new Flower($flower))->generate($world, $random, $source_x + $x, $y, $source_z + $z);
 		}

@@ -18,7 +18,7 @@ class TreeDecorator extends Decorator{
 	/**
 	 * @param Random $random
 	 * @param TreeDecoration[] $decorations
-	 * @return string a GenericTree class
+	 * @return ?string $generic_tree_class a GenericTree class
 	 */
 	private static function getRandomTree(Random $random, array $decorations) : ?string{
 		$total_weight = 0;
@@ -68,7 +68,7 @@ class TreeDecorator extends Decorator{
 			try{
 				/** @var GenericTree $tree */
 				$tree = new $class($random, $txn);
-			}catch(Exception $ex){
+			}catch(Exception){
 				$tree = new GenericTree($random, $txn);
 			}
 			if($tree->generate($world, $random, ($chunk_x << 4) + $x, $source_y, ($chunk_z << 4) + $z)){

@@ -56,8 +56,8 @@ class OreVein extends TerrainObject{
 			$origin_y = $dy1 + ($dy2 - $dy1) * $i / $this->amount;
 			$origin_z = $dz1 + ($dz2 - $dz1) * $i / $this->amount;
 			$q = $random->nextFloat() * $this->amount / 16.0;
-			$radius_h = (MathHelper::getInstance()->sin($i * M_PI / $this->amount) + 1 * $q + 1) / 2.0;
-			$radius_v = (MathHelper::getInstance()->sin($i * M_PI / $this->amount) + 1 * $q + 1) / 2.0;
+			$radius_h = (MathHelper::getInstance()->sin($i * M_PI / $this->amount) + $q + 1) / 2.0;
+			$radius_v = (MathHelper::getInstance()->sin($i * M_PI / $this->amount) + $q + 1) / 2.0;
 
 			$min_x = (int) ($origin_x - $radius_h);
 			$max_x = (int) ($origin_x + $radius_h);

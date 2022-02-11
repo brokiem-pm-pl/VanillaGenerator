@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpIfWithCommonPartsInspection */
 
 declare(strict_types=1);
 
@@ -133,8 +133,7 @@ class SimplexNoise extends PerlinNoise{
 		// For the 2D case, the simplex shape is an equilateral triangle.
 
 		// Determine which simplex we are in.
-		$i1 = 0; // Offsets for second (middle) corner of simplex in (i,j) coords
-		$j1 = 0;
+		// i1 - offsets for second (middle) corner of simplex in (i,j) coords
 		if($x0 > $y0){
 			$i1 = 1; // lower triangle, XY order: (0,0)->(1,0)->(1,1)
 			$j1 = 0;
@@ -161,7 +160,6 @@ class SimplexNoise extends PerlinNoise{
 
 		// Calculate the contribution from the three corners
 		$t0 = 0.5 - $x0 * $x0 - $y0 * $y0;
-		$n0 = 0.0;
 		if($t0 < 0){
 			$n0 = 0.0;
 		}else{
@@ -170,7 +168,6 @@ class SimplexNoise extends PerlinNoise{
 		}
 
 		$t1 = 0.5 - $x1 * $x1 - $y1 * $y1;
-		$n1 = 0.0;
 		if($t1 < 0){
 			$n1 = 0.0;
 		}else{
@@ -179,7 +176,6 @@ class SimplexNoise extends PerlinNoise{
 		}
 
 		$t2 = 0.5 - $x2 * $x2 - $y2 * $y2;
-		$n2 = 0;
 		if($t2 < 0){
 			$n2 = 0.0;
 		}else{
@@ -205,12 +201,8 @@ class SimplexNoise extends PerlinNoise{
 
 		// For the 3D case, the simplex shape is a slightly irregular tetrahedron.
 
-		$i1 = 0; // Offsets for second corner of simplex in (i,j,k) coords
-		$j1 = 0;
-		$k1 = 0;
-		$i2 = 0; // Offsets for third corner of simplex in (i,j,k) coords
-		$j2 = 0;
-		$k2 = 0;
+		// i1 - Offsets for second corner of simplex in (i,j,k) coords
+		// i2 - Offsets for third corner of simplex in (i,j,k) coords
 
 		$x0 = $xin - $dx0; // The x,y,z distances from the cell origin
 		$y0 = $yin - $dy0;
@@ -286,7 +278,7 @@ class SimplexNoise extends PerlinNoise{
 
 		// Calculate the contribution from the four corners
 		$t0 = 0.5 - $x0 * $x0 - $y0 * $y0 - $z0 * $z0;
-		$n0 = 0.0; // Noise contributions from the four corners
+		// n0 - Noise contributions from the four corners
 		if($t0 < 0){
 			$n0 = 0.0;
 		}else{
@@ -295,7 +287,6 @@ class SimplexNoise extends PerlinNoise{
 		}
 
 		$t1 = 0.5 - $x1 * $x1 - $y1 * $y1 - $z1 * $z1;
-		$n1 = 0.0;
 		if($t1 < 0){
 			$n1 = 0.0;
 		}else{
@@ -304,7 +295,6 @@ class SimplexNoise extends PerlinNoise{
 		}
 
 		$t2 = 0.5 - $x2 * $x2 - $y2 * $y2 - $z2 * $z2;
-		$n2 = 0.0;
 		if($t2 < 0){
 			$n2 = 0.0;
 		}else{
@@ -316,7 +306,6 @@ class SimplexNoise extends PerlinNoise{
 		$y3 = $y0 + self::G33;
 		$z3 = $z0 + self::G33;
 		$t3 = 0.5 - $x3 * $x3 - $y3 * $y3 - $z3 * $z3;
-		$n3 = 0.0;
 		if($t3 < 0){
 			$n3 = 0.0;
 		}else{

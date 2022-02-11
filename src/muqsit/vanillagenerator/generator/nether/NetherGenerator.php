@@ -73,6 +73,7 @@ class NetherGenerator extends VanillaGenerator{
 		$cx = $chunk_x << 4;
 		$cz = $chunk_z << 4;
 
+		/** @var NetherWorldOctaves $octaves */
 		$octaves = $this->getWorldOctaves();
 
 		$surface_noise = $octaves->surface->getFractalBrownianMotion($cx, $cz, 0, 0.5, 2.0);

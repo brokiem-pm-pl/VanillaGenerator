@@ -1,9 +1,10 @@
 name: VanillaGenerator
-main: muqsit\vanillagenerator\Loader
+antigen: muqsit\vanillagenerator
 api: 4.0.0
-version: 0.0.4
+version: 0.0.5
 author: Muqsit
+authors: [VixikHD]
+website: https://github.com/CzechPMDevs/VanillaGenerator
 github: https://github.com/Muqsit
 twitter: https://twitter.com/muqsitrayyan
 forum: https://forums.pmmp.io/members/muqsit.25/
-hotel: trivago

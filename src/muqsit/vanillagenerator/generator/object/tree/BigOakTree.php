@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\object\tree;
 
+use muqsit\vanillagenerator\generator\utils\MathHelper;
 use pocketmine\block\BlockFactory;
 use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
@@ -152,8 +153,8 @@ class BigOakTree extends GenericTree{
 				for($i = 0; $i < $node_count; ++$i){
 					$d1 = $f * ($random->nextFloat() + 0.328);
 					$d2 = $random->nextFloat() * M_PI * 2.0;
-					$x = (int) ($d1 * sin($d2) + $block_x + 0.5);
-					$z = (int) ($d1 * cos($d2) + $block_z + 0.5);
+					$x = (int) ($d1 * MathHelper::getInstance()->sin($d2) + $block_x + 0.5);
+					$z = (int) ($d1 * MathHelper::getInstance()->cos($d2) + $block_z + 0.5);
 					if($this->countAvailableBlocks(new Vector3($x, $y, $z), new Vector3($x, $y + $this->max_leaf_distance, $z), $world) === -1){
 						$off_x = $block_x - $x;
 						$off_z = $block_z - $z;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace muqsit\vanillagenerator\generator\ground;
 
 use muqsit\vanillagenerator\generator\noise\glowstone\SimplexOctaveGenerator;
+use muqsit\vanillagenerator\generator\utils\MathHelper;
 use pocketmine\block\BlockFactory;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\utils\DyeColor;
@@ -57,7 +58,7 @@ class MesaGroundGenerator extends GroundGenerator{
 		$ground_mat = $this->ground_material;
 
 		$surface_height = max((int) ($surface_noise / 3.0 + 3.0 + $random->nextFloat() * 0.25), 1);
-		$colored = cos($surface_noise / 3.0 * M_PI) <= 0;
+		$colored = MathHelper::getInstance()->cos($surface_noise / 3.0 * M_PI) <= 0;
 		$bryce_canyon_height = 0.0;
 		if($this->type === self::BRYCE){
 			$noise_x = ($x & 0xFFFFFFF0) + ($z & 0xF);

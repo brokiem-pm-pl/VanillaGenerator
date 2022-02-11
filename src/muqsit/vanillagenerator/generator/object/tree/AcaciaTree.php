@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\object\tree;
 
+use muqsit\vanillagenerator\generator\utils\MathHelper;
 use pocketmine\block\Block;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\utils\TreeType;
@@ -31,8 +32,8 @@ class AcaciaTree extends GenericTree{
 		}
 
 		$d = ($random->nextFloat() * M_PI * 2.0); // random direction
-		$dx = (int) (cos($d) + 1.5) - 1;
-		$dz = (int) (sin($d) + 1.5) - 1;
+		$dx = (int) (MathHelper::getInstance()->cos($d) + 1.5) - 1;
+		$dz = (int) (MathHelper::getInstance()->sin($d) + 1.5) - 1;
 		if(abs($dx) > 0 && abs($dz) > 0){ // reduce possible directions to NESW
 			if($random->nextBoolean()){
 				$dx = 0;
@@ -81,8 +82,8 @@ class AcaciaTree extends GenericTree{
 
 		// try to choose a different direction for second branching and canopy
 		$d = $random->nextFloat() * M_PI * 2.0;
-		$dx_b = (int) (cos($d) + 1.5) - 1;
-		$dz_b = (int) (sin($d) + 1.5) - 1;
+		$dx_b = (int) (MathHelper::getInstance()->cos($d) + 1.5) - 1;
+		$dz_b = (int) (MathHelper::getInstance()->sin($d) + 1.5) - 1;
 		if(abs($dx_b) > 0 && abs($dz_b) > 0){
 			if($random->nextBoolean()){
 				$dx_b = 0;

@@ -8,6 +8,7 @@ use muqsit\vanillagenerator\generator\Environment;
 use muqsit\vanillagenerator\generator\nether\populator\NetherPopulator;
 use muqsit\vanillagenerator\generator\noise\glowstone\PerlinOctaveGenerator;
 use muqsit\vanillagenerator\generator\overworld\WorldType;
+use muqsit\vanillagenerator\generator\utils\MathHelper;
 use muqsit\vanillagenerator\generator\utils\NetherWorldOctaves;
 use muqsit\vanillagenerator\generator\utils\preset\GeneratorPreset;
 use muqsit\vanillagenerator\generator\utils\preset\SimpleGeneratorPreset;
@@ -201,7 +202,7 @@ class NetherGenerator extends VanillaGenerator{
 		if($nv === null){
 			$nv = [];
 			for($i = 0; $i < $k_max; ++$i){
-				$nv[$i] = cos($i * M_PI * 6.0 / $k_max) * 2.0;
+				$nv[$i] = MathHelper::getInstance()->cos($i * M_PI * 6.0 / $k_max) * 2.0;
 				$nh = $i > $k_max / 2 ? $k_max - 1 - $i : $i;
 				if($nh < 4.0){
 					$nh = 4.0 - $nh;

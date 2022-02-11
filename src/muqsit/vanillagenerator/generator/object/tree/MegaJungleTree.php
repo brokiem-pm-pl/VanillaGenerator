@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\object\tree;
 
+use muqsit\vanillagenerator\generator\utils\MathHelper;
 use pocketmine\block\Block;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\utils\TreeType;
@@ -78,8 +79,8 @@ class MegaJungleTree extends GenericTree{
 			$d = $random->nextFloat() * M_PI * 2.0; // random direction
 			for($i = 0; $i < 5; ++$i){
 				// branches are always longer when facing south or east (positive X or positive Z)
-				$x = (int) (cos($d) * $i + 1.5);
-				$z = (int) (sin($d) * $i + 1.5);
+				$x = (int) (MathHelper::getInstance()->cos($d) * $i + 1.5);
+				$z = (int) (MathHelper::getInstance()->sin($d) * $i + 1.5);
 				$this->transaction->addBlockAt($source_x + $x, (int) ($source_y + $branch_height - 3 + $i / 2), $source_z + $z, $this->log_type);
 			}
 			// generates leaves for this branch

@@ -6,6 +6,7 @@ namespace muqsit\vanillagenerator\generator\overworld\decorator;
 
 use muqsit\vanillagenerator\generator\Decorator;
 use muqsit\vanillagenerator\generator\noise\glowstone\PerlinOctaveGenerator;
+use muqsit\vanillagenerator\generator\utils\MathHelper;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
@@ -44,8 +45,8 @@ class SurfaceCaveDecorator extends Decorator{
 		for($i = 0; $i < $section_count; ++$i){
 			$yaw = $angles[$i + $section_count];
 			$delta_y = -abs((int) floor($noise[$i] * $length));
-			$delta_x = (int) floor((float) $length * cos(deg2rad($yaw)));
-			$delta_z = (int) floor((float) $length * sin(deg2rad($yaw)));
+			$delta_x = (int) floor((float) $length * MathHelper::getInstance()->cos(deg2rad($yaw)));
+			$delta_z = (int) floor((float) $length * MathHelper::getInstance()->sin(deg2rad($yaw)));
 			$current_node = new Vector3($delta_x, $delta_y, $delta_z);
 			$node[] = $current_node->floor();
 		}

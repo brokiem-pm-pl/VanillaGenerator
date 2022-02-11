@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\object;
 
+use muqsit\vanillagenerator\generator\utils\MathHelper;
 use pocketmine\block\Block;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
@@ -43,10 +44,10 @@ class OreVein extends TerrainObject{
 
 	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{
 		$angle = $random->nextFloat() * M_PI;
-		$dx1 = $source_x + sin($angle) * $this->amount / 8.0;
-		$dx2 = $source_x - sin($angle) * $this->amount / 8.0;
-		$dz1 = $source_z + cos($angle) * $this->amount / 8.0;
-		$dz2 = $source_z - cos($angle) * $this->amount / 8.0;
+		$dx1 = $source_x + MathHelper::getInstance()->sin($angle) * $this->amount / 8.0;
+		$dx2 = $source_x - MathHelper::getInstance()->sin($angle) * $this->amount / 8.0;
+		$dz1 = $source_z + MathHelper::getInstance()->cos($angle) * $this->amount / 8.0;
+		$dz2 = $source_z - MathHelper::getInstance()->cos($angle) * $this->amount / 8.0;
 		$dy1 = $source_y + $random->nextBoundedInt(3) - 2;
 		$dy2 = $source_y + $random->nextBoundedInt(3) - 2;
 		$succeeded = false;
@@ -55,8 +56,8 @@ class OreVein extends TerrainObject{
 			$origin_y = $dy1 + ($dy2 - $dy1) * $i / $this->amount;
 			$origin_z = $dz1 + ($dz2 - $dz1) * $i / $this->amount;
 			$q = $random->nextFloat() * $this->amount / 16.0;
-			$radius_h = (sin($i * M_PI / $this->amount) + 1 * $q + 1) / 2.0;
-			$radius_v = (sin($i * M_PI / $this->amount) + 1 * $q + 1) / 2.0;
+			$radius_h = (MathHelper::getInstance()->sin($i * M_PI / $this->amount) + 1 * $q + 1) / 2.0;
+			$radius_v = (MathHelper::getInstance()->sin($i * M_PI / $this->amount) + 1 * $q + 1) / 2.0;
 
 			$min_x = (int) ($origin_x - $radius_h);
 			$max_x = (int) ($origin_x + $radius_h);

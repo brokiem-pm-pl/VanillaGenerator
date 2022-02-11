@@ -48,7 +48,7 @@ class SurfaceCaveDecorator extends Decorator{
 			$delta_x = (int) floor((float) $length * MathHelper::getInstance()->cos(deg2rad($yaw)));
 			$delta_z = (int) floor((float) $length * MathHelper::getInstance()->sin(deg2rad($yaw)));
 			$current_node = new Vector3($delta_x, $delta_y, $delta_z);
-			$node[] = $current_node->floor();
+			$nodes[] = $current_node->floor();
 		}
 		foreach($nodes as $node){
 			if($node->y < 4){

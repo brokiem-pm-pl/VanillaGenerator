@@ -1,5 +1,5 @@
 {
-	"name": "czechpmdevs/vanillagenerator",
+	"name": "musqit/vanillagenerator",
 	"description": "Vanilla generator ported to PocketMine as a library",
 	"minimum-stability": "stable",
 	"license": "MIT",

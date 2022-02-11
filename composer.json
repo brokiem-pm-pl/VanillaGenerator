@@ -1,0 +1,19 @@
+{
+	"name": "czechpmdevs/vanillagenerator",
+	"description": "Vanilla generator ported to PocketMine as a library",
+	"minimum-stability": "stable",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Muqsit"
+		},
+		{
+			"name": "VixikHD",
+			"email": "dev@vixikhd.me"
+		}
+
+	],
+	"require": {
+		"pocketmine/pocketmine-mp": "^4.2.0"
+	}
+}

@@ -130,13 +130,13 @@ class BigOakTree extends GenericTree{
 	 * @param int $block_z
 	 * @param ChunkManager $world
 	 * @param Random $random
-	 * @return LeafNode[]
+	 * @return BigOakTreeLeafNode[]
 	 */
 	private function generateLeafNodes(int $block_x, int $block_y, int $block_z, ChunkManager $world, Random $random) : array{
 		$leaf_nodes = [];
 		$y = $block_y + $this->height = $this->max_leaf_distance;
 		$trunk_top_y = $block_y + $this->trunk_height;
-		$leaf_nodes[] = new LeafNode($block_x, $y, $block_z, $trunk_top_y);
+		$leaf_nodes[] = new BigOakTreeLeafNode($block_x, $y, $block_z, $trunk_top_y);
 
 		$node_count = (int) (1.382 + ((static::LEAF_DENSITY * ($this->height / 13.0)) ** 2.0));
 		$node_count = max($node_count, 1);
@@ -161,27 +161,12 @@ class BigOakTree extends GenericTree{
 						$distance = 0.381 * hypot($off_x, $off_z);
 						$branch_base_y = min($trunk_top_y, (int) ($y - $distance));
 						if($this->countAvailableBlocks(new Vector3($x, $branch_base_y, $z), new Vector3($x, $y, $z), $world) === -1){
-							$leaf_nodes[] = new LeafNode($x, $y, $z, $branch_base_y);
+							$leaf_nodes[] = new BigOakTreeLeafNode($x, $y, $z, $branch_base_y);
 						}
 					}
 				}
 			}
 		}
 		return $leaf_nodes;
-	}
-}
-
-final class LeafNode{
-
-	public int $x;
-	public int $y;
-	public int $z;
-	public int $branch_y;
-
-	public function __construct(int $x, int $y, int $z, int $branch_y){
-		$this->x = $x;
-		$this->y = $y;
-		$this->z = $z;
-		$this->branch_y = $branch_y;
 	}
 }

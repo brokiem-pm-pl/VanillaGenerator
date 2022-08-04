@@ -25,6 +25,7 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use const PHP_INT_MIN;
 
 class BiomePopulator implements Populator{
 

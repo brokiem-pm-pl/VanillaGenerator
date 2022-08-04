@@ -10,7 +10,9 @@ class SavannaMountainsPopulator extends SavannaPopulator{
 
 	protected function initPopulators() : void{
 		$this->tree_decorator->setAmount(2);
+		$this->tree_decorator->setTrees(...self::$TREES);
 		$this->flower_decorator->setAmount(2);
+		$this->flower_decorator->setFlowers(...self::$FLOWERS);
 		$this->tall_grass_decorator->setAmount(5);
 	}
 
@@ -18,3 +20,4 @@ class SavannaMountainsPopulator extends SavannaPopulator{
 		return [BiomeIds::SAVANNA_MUTATED, BiomeIds::SAVANNA_PLATEAU_MUTATED];
 	}
 }
+SavannaMountainsPopulator::init();

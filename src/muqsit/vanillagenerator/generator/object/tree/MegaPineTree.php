@@ -9,6 +9,8 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
+use function abs;
+use function intdiv;
 
 class MegaPineTree extends MegaRedwoodTree{
 
@@ -40,8 +42,8 @@ class MegaPineTree extends MegaRedwoodTree{
 		$this->generatePodzolPatch($source_x + 2, $source_y, $source_z + 2, $world);
 		for($i = 0; $i < 5; ++$i){
 			$n = $random->nextBoundedInt(64);
-			if($n % 8 === 0 || $n % 8 === 7 || $n / 8 === 0 || $n / 8 === 7){
-				$this->generatePodzolPatch($source_x - 3 + $n % 8, $source_y, $source_z - 3 + $n / 8, $world);
+			if($n % 8 === 0 || $n % 8 === 7 || intdiv($n, 8) === 0 || intdiv($n, 8) === 7){
+				$this->generatePodzolPatch($source_x - 3 + $n % 8, $source_y, $source_z - 3 + intdiv($n, 8), $world);
 			}
 		}
 	}

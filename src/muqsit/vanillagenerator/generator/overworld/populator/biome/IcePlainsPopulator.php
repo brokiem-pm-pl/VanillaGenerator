@@ -24,7 +24,7 @@ class IcePlainsPopulator extends BiomePopulator{
 	}
 	
 	protected function initPopulators() : void{
-		$this->tree_decorator->setAmount(0);
+		$this->tree_decorator->setAmount(1);
 		$this->tree_decorator->setTrees(...self::$TREES);
 		$this->flower_decorator->setAmount(0);
     }

@@ -37,37 +37,37 @@ class TaigaPopulator extends BiomePopulator{
 		];
 	}
 
-	protected MushroomDecorator $taiga_brown_mushroom_decorator;
-	protected MushroomDecorator $taiga_red_mushroom_decorator;
+	protected MushroomDecorator $taigaBrownMushroomDecorator;
+	protected MushroomDecorator $taigaRedMushroomDecorator;
 
 	public function __construct(){
-		$this->taiga_brown_mushroom_decorator = new MushroomDecorator(VanillaBlocks::BROWN_MUSHROOM());
-		$this->taiga_red_mushroom_decorator = new MushroomDecorator(VanillaBlocks::RED_MUSHROOM());
+		$this->taigaBrownMushroomDecorator = new MushroomDecorator(VanillaBlocks::BROWN_MUSHROOM());
+		$this->taigaRedMushroomDecorator = new MushroomDecorator(VanillaBlocks::RED_MUSHROOM());
 		parent::__construct();
 	}
 
 	protected function initPopulators() : void{
-		$this->double_plant_decorator->setAmount(7);
-		$this->double_plant_decorator->setDoublePlants(...self::$DOUBLE_PLANTS);
-		$this->tree_decorator->setAmount(10);
-		$this->tree_decorator->setTrees(...self::$TREES);
-		$this->tall_grass_decorator->setFernDensity(0.8);
-		$this->dead_bush_decorator->setAmount(1);
-		$this->taiga_brown_mushroom_decorator->setAmount(1);
-		$this->taiga_brown_mushroom_decorator->setUseFixedHeightRange();
-		$this->taiga_brown_mushroom_decorator->setDensity(0.25);
-		$this->taiga_red_mushroom_decorator->setAmount(1);
-		$this->taiga_red_mushroom_decorator->setDensity(0.125);
+		$this->doublePlantDecorator->setAmount(7);
+		$this->doublePlantDecorator->setDoublePlants(...self::$DOUBLE_PLANTS);
+		$this->treeDecorator->setAmount(10);
+		$this->treeDecorator->setTrees(...self::$TREES);
+		$this->tallGrassDecorator->setFernDensity(0.8);
+		$this->deadBushDecorator->setAmount(1);
+		$this->taigaBrownMushroomDecorator->setAmount(1);
+		$this->taigaBrownMushroomDecorator->setUseFixedHeightRange();
+		$this->taigaBrownMushroomDecorator->setDensity(0.25);
+		$this->taigaRedMushroomDecorator->setAmount(1);
+		$this->taigaRedMushroomDecorator->setDensity(0.125);
 	}
 
 	public function getBiomes() : ?array{
 		return [BiomeIds::TAIGA, BiomeIds::TAIGA_HILLS, BiomeIds::TAIGA_MUTATED, BiomeIds::COLD_TAIGA, BiomeIds::COLD_TAIGA_HILLS, BiomeIds::COLD_TAIGA_MUTATED];
 	}
 
-	protected function populateOnGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		parent::populateOnGround($world, $random, $chunk_x, $chunk_z, $chunk);
-		$this->taiga_brown_mushroom_decorator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
-		$this->taiga_red_mushroom_decorator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
+	protected function populateOnGround(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		parent::populateOnGround($world, $random, $chunkX, $chunkZ, $chunk);
+		$this->taigaBrownMushroomDecorator->populate($world, $random, $chunkX, $chunkZ, $chunk);
+		$this->taigaRedMushroomDecorator->populate($world, $random, $chunkX, $chunkZ, $chunk);
 	}
 }
 TaigaPopulator::init();

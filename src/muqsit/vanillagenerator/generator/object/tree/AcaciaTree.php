@@ -27,8 +27,8 @@ class AcaciaTree extends GenericTree{
 		return $type === BlockLegacyIds::GRASS || $type === BlockLegacyIds::DIRT;
 	}
 
-	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{
-		if($this->cannotGenerateAt($source_x, $source_y, $source_z, $world)){
+	public function generate(ChunkManager $world, Random $random, int $sourceX, int $sourceY, int $sourceZ) : bool{
+		if($this->cannotGenerateAt($sourceX, $sourceY, $sourceZ, $world)){
 			return false;
 		}
 
@@ -42,102 +42,102 @@ class AcaciaTree extends GenericTree{
 				$dz = 0;
 			}
 		}
-		$twist_height = $this->height - 1 - $random->nextBoundedInt(4);
-		$twist_count = $random->nextBoundedInt(3) + 1;
-		$center_x = $source_x;
-		$center_z = $source_z;
-		$trunk_top_y = 0;
+		$twistHeight = $this->height - 1 - $random->nextBoundedInt(4);
+		$twistCount = $random->nextBoundedInt(3) + 1;
+		$centerX = $sourceX;
+		$centerZ = $sourceZ;
+		$trunkTopY = 0;
 		// generates the trunk
 		for($y = 0; $y < $this->height; ++$y){
 
 			// trunk twists
-			if($twist_count > 0 && $y >= $twist_height){
-				$center_x += $dx;
-				$center_z += $dz;
-				--$twist_count;
+			if($twistCount > 0 && $y >= $twistHeight){
+				$centerX += $dx;
+				$centerZ += $dz;
+				--$twistCount;
 			}
 
-			$material = $world->getBlockAt($center_x, $source_y + $y, $center_z)->getId();
+			$material = $world->getBlockAt($centerX, $sourceY + $y, $centerZ)->getId();
 			if($material === BlockLegacyIds::AIR || $material === BlockLegacyIds::LEAVES){
-				$trunk_top_y = $source_y + $y;
-				$this->transaction->addBlockAt($center_x, $source_y + $y, $center_z, $this->log_type);
+				$trunkTopY = $sourceY + $y;
+				$this->transaction->addBlockAt($centerX, $sourceY + $y, $centerZ, $this->logType);
 			}
 		}
 
 		// generates leaves
 		for($x = -3; $x <= 3; ++$x){
-			$abs_x = abs($x);
+			$absX = abs($x);
 			for($z = -3; $z <= 3; ++$z){
-				$abs_z = abs($z);
-				if($abs_x < 3 || $abs_z < 3){
-					$this->setLeaves($center_x + $x, $trunk_top_y, $center_z + $z, $world);
+				$absZ = abs($z);
+				if($absX < 3 || $absZ < 3){
+					$this->setLeaves($centerX + $x, $trunkTopY, $centerZ + $z, $world);
 				}
-				if($abs_x < 2 && $abs_z < 2){
-					$this->setLeaves($center_x + $x, $trunk_top_y + 1, $center_z + $z, $world);
+				if($absX < 2 && $absZ < 2){
+					$this->setLeaves($centerX + $x, $trunkTopY + 1, $centerZ + $z, $world);
 				}
-				if(($abs_x === 2 && $abs_z === 0) || ($abs_x === 0 && $abs_z === 2)){
-					$this->setLeaves($center_x + $x, $trunk_top_y + 1, $center_z + $z, $world);
+				if(($absX === 2 && $absZ === 0) || ($absX === 0 && $absZ === 2)){
+					$this->setLeaves($centerX + $x, $trunkTopY + 1, $centerZ + $z, $world);
 				}
 			}
 		}
 
 		// try to choose a different direction for second branching and canopy
 		$d = $random->nextFloat() * M_PI * 2.0;
-		$dx_b = (int) (MathHelper::getInstance()->cos($d) + 1.5) - 1;
-		$dz_b = (int) (MathHelper::getInstance()->sin($d) + 1.5) - 1;
-		if(abs($dx_b) > 0 && abs($dz_b) > 0){
+		$dxB = (int) (MathHelper::getInstance()->cos($d) + 1.5) - 1;
+		$dzB = (int) (MathHelper::getInstance()->sin($d) + 1.5) - 1;
+		if(abs($dxB) > 0 && abs($dzB) > 0){
 			if($random->nextBoolean()){
-				$dx_b = 0;
+				$dxB = 0;
 			}else{
-				$dz_b = 0;
+				$dzB = 0;
 			}
 		}
-		if($dx !== $dx_b || $dz !== $dz_b){
-			$center_x = $source_x;
-			$center_z = $source_z;
-			$branch_height = $twist_height - 1 - $random->nextBoundedInt(2);
-			$twist_count = $random->nextBoundedInt(3) + 1;
-			$trunk_top_y = 0;
+		if($dx !== $dxB || $dz !== $dzB){
+			$centerX = $sourceX;
+			$centerZ = $sourceZ;
+			$branchHeight = $twistHeight - 1 - $random->nextBoundedInt(2);
+			$twistCount = $random->nextBoundedInt(3) + 1;
+			$trunkTopY = 0;
 
 			// generates the trunk
-			for($y = $branch_height + 1; $y < $this->height; ++$y){
-				if($twist_count > 0){
-					$center_x += $dx_b;
-					$center_z += $dz_b;
-					$material = $world->getBlockAt($center_x, $source_y + $y, $center_z)->getId();
+			for($y = $branchHeight + 1; $y < $this->height; ++$y){
+				if($twistCount > 0){
+					$centerX += $dxB;
+					$centerZ += $dzB;
+					$material = $world->getBlockAt($centerX, $sourceY + $y, $centerZ)->getId();
 					if($material === BlockLegacyIds::AIR || $material === BlockLegacyIds::LEAVES){
-						$trunk_top_y = $source_y + $y;
-						$this->transaction->addBlockAt($center_x, $source_y + $y, $center_z, $this->log_type);
+						$trunkTopY = $sourceY + $y;
+						$this->transaction->addBlockAt($centerX, $sourceY + $y, $centerZ, $this->logType);
 					}
-					--$twist_count;
+					--$twistCount;
 				}
 			}
 
 			// generates the leaves
-			if($trunk_top_y > 0){
+			if($trunkTopY > 0){
 				for($x = -2; $x <= 2; ++$x){
 					for($z = -2; $z <= 2; ++$z){
 						if(abs($x) < 2 || abs($z) < 2){
-							$this->setLeaves($center_x + $x, $trunk_top_y, $center_z + $z, $world);
+							$this->setLeaves($centerX + $x, $trunkTopY, $centerZ + $z, $world);
 						}
 					}
 				}
 				for($x = -1; $x <= 1; ++$x){
 					for($z = -1; $z <= 1; ++$z){
-						$this->setLeaves($center_x + $x, $trunk_top_y + 1, $center_z + $z, $world);
+						$this->setLeaves($centerX + $x, $trunkTopY + 1, $centerZ + $z, $world);
 					}
 				}
 			}
 		}
 
-		$this->transaction->addBlockAt($source_x, $source_y - 1, $source_z, VanillaBlocks::DIRT());
+		$this->transaction->addBlockAt($sourceX, $sourceY - 1, $sourceZ, VanillaBlocks::DIRT());
 
 		return true;
 	}
 
 	private function setLeaves(int $x, int $y, int $z, ChunkManager $world) : void{
 		if($world->getBlockAt($x, $y, $z)->getId() === BlockLegacyIds::AIR){
-			$this->transaction->addBlockAt($x, $y, $z, $this->leaves_type);
+			$this->transaction->addBlockAt($x, $y, $z, $this->leavesType);
 		}
 	}
 }

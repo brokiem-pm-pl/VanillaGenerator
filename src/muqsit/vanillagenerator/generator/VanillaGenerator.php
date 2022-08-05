@@ -22,30 +22,30 @@ use function count;
 abstract class VanillaGenerator extends Generator{
 
 	/** @phpstan-var T */
-	private ?WorldOctaves $octave_cache = null;
+	private ?WorldOctaves $octaveCache = null;
 
 	/** @var Populator[] */
 	private array $populators = [];
 
-	private MapLayerPair $biome_grid;
+	private MapLayerPair $biomeGrid;
 
-	public function __construct(int $seed, int $environment, ?string $world_type, GeneratorPreset $preset){
+	public function __construct(int $seed, int $environment, ?string $worldType, GeneratorPreset $preset){
 		parent::__construct($seed, $preset->toString());
-		$this->biome_grid = MapLayer::initialize($seed, $environment, $world_type ?? WorldType::NORMAL);
+		$this->biomeGrid = MapLayer::initialize($seed, $environment, $worldType ?? WorldType::NORMAL);
 	}
 
 	/**
 	 * @return int[]
 	 */
-	public function getBiomeGridAtLowerRes(int $x, int $z, int $size_x, int $size_z) : array{
-		return $this->biome_grid->low_resolution->generateValues($x, $z, $size_x, $size_z);
+	public function getBiomeGridAtLowerRes(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		return $this->biomeGrid->lowResolution->generateValues($x, $z, $sizeX, $sizeZ);
 	}
 
 	/**
 	 * @return int[]
 	 */
-	public function getBiomeGrid(int $x, int $z, int $size_x, int $size_z) : array{
-		return $this->biome_grid->high_resolution->generateValues($x, $z, $size_x, $size_z);
+	public function getBiomeGrid(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		return $this->biomeGrid->highResolution->generateValues($x, $z, $sizeX, $sizeZ);
 	}
 
 	protected function addPopulators(Populator ...$populators) : void{
@@ -59,21 +59,21 @@ abstract class VanillaGenerator extends Generator{
 
 	public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ) : void{
 		$biomes = new VanillaBiomeGrid();
-		$biome_values = $this->biome_grid->high_resolution->generateValues($chunkX * 16, $chunkZ * 16, 16, 16);
-		for($i = 0, $biome_values_c = count($biome_values); $i < $biome_values_c; ++$i){
-			$biomes->biomes[$i] = $biome_values[$i];
+		$biomeValues = $this->biomeGrid->highResolution->generateValues($chunkX * 16, $chunkZ * 16, 16, 16);
+		for($i = 0, $biomeValuesC = count($biomeValues); $i < $biomeValuesC; ++$i){
+			$biomes->biomes[$i] = $biomeValues[$i];
 		}
 
 		$this->generateChunkData($world, $chunkX, $chunkZ, $biomes);
 	}
 
-	abstract protected function generateChunkData(ChunkManager $world, int $chunk_x, int $chunk_z, VanillaBiomeGrid $biomes) : void;
+	abstract protected function generateChunkData(ChunkManager $world, int $chunkX, int $chunkZ, VanillaBiomeGrid $biomes) : void;
 
 	/**
 	 * @phpstan-return T
 	 */
 	final protected function getWorldOctaves() : WorldOctaves{
-		return $this->octave_cache ??= $this->createWorldOctaves();
+		return $this->octaveCache ??= $this->createWorldOctaves();
 	}
 
 	/**
@@ -83,11 +83,11 @@ abstract class VanillaGenerator extends Generator{
 		return $this->populators;
 	}
 
-	public function populateChunk(ChunkManager $world, int $chunk_x, int $chunk_z) : void{
+	public function populateChunk(ChunkManager $world, int $chunkX, int $chunkZ) : void{
 		/** @var Chunk $chunk */
-		$chunk = $world->getChunk($chunk_x, $chunk_z);
+		$chunk = $world->getChunk($chunkX, $chunkZ);
 		foreach($this->populators as $populator){
-			$populator->populate($world, $this->random, $chunk_x, $chunk_z, $chunk);
+			$populator->populate($world, $this->random, $chunkX, $chunkZ, $chunk);
 		}
 	}
 

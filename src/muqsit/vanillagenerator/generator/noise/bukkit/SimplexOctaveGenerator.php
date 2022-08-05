@@ -21,7 +21,7 @@ class SimplexOctaveGenerator extends BaseOctaveGenerator{
 		return $result;
 	}
 
-	private float $w_scale = 1.0;
+	private float $wScale = 1.0;
 
 	/**
 	 * Creates a simplex octave generator for the given {@link Random}
@@ -43,7 +43,7 @@ class SimplexOctaveGenerator extends BaseOctaveGenerator{
 	 * @return float W scale
 	 */
 	public function getWScale() : float{
-		return $this->w_scale;
+		return $this->wScale;
 	}
 
 	/**
@@ -52,7 +52,7 @@ class SimplexOctaveGenerator extends BaseOctaveGenerator{
 	 * @param float $scale New W scale
 	 */
 	public function setWScale(float $scale) : void{
-		$this->w_scale = $scale;
+		$this->wScale = $scale;
 	}
 
 	/**
@@ -73,9 +73,9 @@ class SimplexOctaveGenerator extends BaseOctaveGenerator{
 		$freq = 1.0;
 		$max = 0.0;
 
-		$x *= $this->x_scale;
-		$y *= $this->y_scale;
-		$z *= $this->z_scale;
+		$x *= $this->xScale;
+		$y *= $this->yScale;
+		$z *= $this->zScale;
 
 		foreach($this->octaves as $octave){
 			$result += $octave->noise3d($x * $freq, $y * $freq, $z * $freq) * $amp;
@@ -110,10 +110,10 @@ class SimplexOctaveGenerator extends BaseOctaveGenerator{
 		$freq = 1.0;
 		$max = 0.0;
 
-		$x *= $this->x_scale;
-		$y *= $this->y_scale;
-		$z *= $this->z_scale;
-		$w *= $this->w_scale;
+		$x *= $this->xScale;
+		$y *= $this->yScale;
+		$z *= $this->zScale;
+		$w *= $this->wScale;
 
 		/** @var SimplexNoiseGenerator $octave */
 		foreach($this->octaves as $octave){

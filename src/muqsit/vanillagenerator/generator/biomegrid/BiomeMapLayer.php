@@ -30,20 +30,20 @@ class BiomeMapLayer extends MapLayer{
 	/** @var int[] */
 	private static array $WET_LARGE = [BiomeIds::JUNGLE];
 
-	private MapLayer $below_layer;
+	private MapLayer $belowLayer;
 
-	public function __construct(int $seed, MapLayer $below_layer){
+	public function __construct(int $seed, MapLayer $belowLayer){
 		parent::__construct($seed);
-		$this->below_layer = $below_layer;
+		$this->belowLayer = $belowLayer;
 	}
 
-	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{
-		$values = $this->below_layer->generateValues($x, $z, $size_x, $size_z);
+	public function generateValues(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		$values = $this->belowLayer->generateValues($x, $z, $sizeX, $sizeZ);
 
-		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
-				$val = $values[$j + $i * $size_x];
+		$finalValues = [];
+		for($i = 0; $i < $sizeZ; ++$i){
+			for($j = 0; $j < $sizeX; ++$j){
+				$val = $values[$j + $i * $sizeX];
 				if($val !== 0){
 					$this->setCoordsSeed($x + $j, $z + $i);
 					switch($val){
@@ -74,10 +74,10 @@ class BiomeMapLayer extends MapLayer{
 					}
 				}
 
-				$final_values[$j + $i * $size_x] = $val;
+				$finalValues[$j + $i * $sizeX] = $val;
 			}
 		}
 
-		return $final_values;
+		return $finalValues;
 	}
 }

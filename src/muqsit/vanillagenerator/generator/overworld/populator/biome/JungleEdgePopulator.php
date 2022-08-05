@@ -22,8 +22,8 @@ class JungleEdgePopulator extends JunglePopulator{
 	}
 
 	protected function initPopulators() : void{
-		$this->tree_decorator->setAmount(2);
-		$this->tree_decorator->setTrees(...self::$TREES);
+		$this->treeDecorator->setAmount(2);
+		$this->treeDecorator->setTrees(...self::$TREES);
 	}
 
 	public function getBiomes() : ?array{

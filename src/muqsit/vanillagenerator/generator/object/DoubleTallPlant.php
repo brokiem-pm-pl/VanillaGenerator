@@ -22,17 +22,17 @@ class DoubleTallPlant extends TerrainObject{
 	 *
 	 * @return bool true whether least one plant was successfully generated
 	 */
-	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{
+	public function generate(ChunkManager $world, Random $random, int $sourceX, int $sourceY, int $sourceZ) : bool{
 		$placed = false;
 		$height = $world->getMaxY();
 		for($i = 0; $i < 64; ++$i){
-			$x = $source_x + $random->nextBoundedInt(8) - $random->nextBoundedInt(8);
-			$z = $source_z + $random->nextBoundedInt(8) - $random->nextBoundedInt(8);
-			$y = $source_y + $random->nextBoundedInt(4) - $random->nextBoundedInt(4);
+			$x = $sourceX + $random->nextBoundedInt(8) - $random->nextBoundedInt(8);
+			$z = $sourceZ + $random->nextBoundedInt(8) - $random->nextBoundedInt(8);
+			$y = $sourceY + $random->nextBoundedInt(4) - $random->nextBoundedInt(4);
 
 			$block = $world->getBlockAt($x, $y, $z);
-			$top_block = $world->getBlockAt($x, $y + 1, $z);
-			if($y < $height && $block->getId() === BlockLegacyIds::AIR && $top_block->getId() === BlockLegacyIds::AIR && $world->getBlockAt($x, $y - 1, $z)->getId() === BlockLegacyIds::GRASS){
+			$topBlock = $world->getBlockAt($x, $y + 1, $z);
+			if($y < $height && $block->getId() === BlockLegacyIds::AIR && $topBlock->getId() === BlockLegacyIds::AIR && $world->getBlockAt($x, $y - 1, $z)->getId() === BlockLegacyIds::GRASS){
 				$world->setBlockAt($x, $y, $z, $this->species->setTop(false));
 				$world->setBlockAt($x, $y + 1, $z, $this->species->setTop(true));
 				$placed = true;

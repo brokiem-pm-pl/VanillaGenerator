@@ -18,67 +18,67 @@ class WhittakerMapLayer extends MapLayer{
 		self::$MAP[self::COLD_DRY] = new Climate(3, [2, 4], 1);
 	}
 
-	private MapLayer $below_layer;
+	private MapLayer $belowLayer;
 	private int $type;
 
-	public function __construct(int $seed, MapLayer $below_layer, int $type){
+	public function __construct(int $seed, MapLayer $belowLayer, int $type){
 		parent::__construct($seed);
-		$this->below_layer = $below_layer;
+		$this->belowLayer = $belowLayer;
 		$this->type = $type;
 	}
 
-	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{
+	public function generateValues(int $x, int $z, int $sizeX, int $sizeZ) : array{
 		if($this->type === self::WARM_WET || $this->type === self::COLD_DRY){
-			return $this->swapValues($x, $z, $size_x, $size_z);
+			return $this->swapValues($x, $z, $sizeX, $sizeZ);
 		}
 
-		return $this->modifyValues($x, $z, $size_x, $size_z);
+		return $this->modifyValues($x, $z, $sizeX, $sizeZ);
 	}
 
 	/**
 	 * @return int[]
 	 */
-	private function swapValues(int $x, int $z, int $size_x, int $size_z) : array{
-		$grid_x = $x - 1;
-		$grid_z = $z - 1;
-		$grid_size_x = $size_x + 2;
-		$grid_size_z = $size_z + 2;
-		$values = $this->below_layer->generateValues($grid_x, $grid_z, $grid_size_x, $grid_size_z);
+	private function swapValues(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		$gridX = $x - 1;
+		$gridZ = $z - 1;
+		$gridSizeX = $sizeX + 2;
+		$gridSizeZ = $sizeZ + 2;
+		$values = $this->belowLayer->generateValues($gridX, $gridZ, $gridSizeX, $gridSizeZ);
 
 		$climate = self::$MAP[$this->type];
-		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
-				$center_val = $values[$j + 1 + ($i + 1) * $grid_size_x];
-				if($center_val === $climate->value){
-					$upper_val = $values[$j + 1 + $i * $grid_size_x];
-					$lower_val = $values[$j + 1 + ($i + 2) * $grid_size_x];
-					$left_val = $values[$j + ($i + 1) * $grid_size_x];
-					$right_val = $values[$j + 2 + ($i + 1) * $grid_size_x];
-					foreach($climate->cross_types as $type){
-						if(($upper_val === $type) || ($lower_val === $type) || ($left_val === $type) || ($right_val === $type)){
-							$center_val = $climate->final_value;
+		$finalValues = [];
+		for($i = 0; $i < $sizeZ; ++$i){
+			for($j = 0; $j < $sizeX; ++$j){
+				$centerVal = $values[$j + 1 + ($i + 1) * $gridSizeX];
+				if($centerVal === $climate->value){
+					$upperVal = $values[$j + 1 + $i * $gridSizeX];
+					$lowerVal = $values[$j + 1 + ($i + 2) * $gridSizeX];
+					$leftVal = $values[$j + ($i + 1) * $gridSizeX];
+					$rightVal = $values[$j + 2 + ($i + 1) * $gridSizeX];
+					foreach($climate->crossTypes as $type){
+						if(($upperVal === $type) || ($lowerVal === $type) || ($leftVal === $type) || ($rightVal === $type)){
+							$centerVal = $climate->finalValue;
 							break;
 						}
 					}
 				}
 
-				$final_values[$j + $i * $size_x] = $center_val;
+				$finalValues[$j + $i * $sizeX] = $centerVal;
 			}
 		}
 
-		return $final_values;
+		return $finalValues;
 	}
 
 	/**
 	 * @return int[]
 	 */
-	private function modifyValues(int $x, int $z, int $size_x, int $size_z) : array{
-		$values = $this->below_layer->generateValues($x, $z, $size_x, $size_z);
-		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
-				$val = $values[$j + $i * $size_x];
+	private function modifyValues(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		$values = $this->belowLayer->generateValues($x, $z, $sizeX, $sizeZ);
+		$finalValues = [];
+		for($i = 0; $i < $sizeZ; ++$i){
+			for($j = 0; $j < $sizeX; ++$j){
+				$val = $values[$j + $i * $sizeX];
 				if($val !== 0){
 					$this->setCoordsSeed($x + $j, $z + $i);
 					if($this->nextInt(13) === 0){
@@ -86,10 +86,10 @@ class WhittakerMapLayer extends MapLayer{
 					}
 				}
 
-				$final_values[$j + $i * $size_x] = $val;
+				$finalValues[$j + $i * $sizeX] = $val;
 			}
 		}
-		return $final_values;
+		return $finalValues;
 	}
 }
 

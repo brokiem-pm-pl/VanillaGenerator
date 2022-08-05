@@ -21,8 +21,8 @@ class SunflowerPlainsPopulator extends PlainsPopulator{
 	}
 
 	protected function initPopulators() : void{
-		$this->double_plant_decorator->setAmount(10);
-		$this->double_plant_decorator->setDoublePlants(...self::$DOUBLE_PLANTS);
+		$this->doublePlantDecorator->setAmount(10);
+		$this->doublePlantDecorator->setDoublePlants(...self::$DOUBLE_PLANTS);
 	}
 
 	public function getBiomes() : ?array{

@@ -16,39 +16,39 @@ class SugarCane extends TerrainObject{
 
 	private const FACES = [Facing::NORTH, Facing::EAST, Facing::SOUTH, Facing::WEST];
 
-	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{
-		if($world->getBlockAt($source_x, $source_y, $source_z)->getId() !== BlockLegacyIds::AIR){
+	public function generate(ChunkManager $world, Random $random, int $sourceX, int $sourceY, int $sourceZ) : bool{
+		if($world->getBlockAt($sourceX, $sourceY, $sourceZ)->getId() !== BlockLegacyIds::AIR){
 			return false;
 		}
 
-		$vec = new Vector3($source_x, $source_y - 1, $source_z);
-		$adjacent_water = false;
+		$vec = new Vector3($sourceX, $sourceY - 1, $sourceZ);
+		$adjacentWater = false;
 		foreach(self::FACES as $face){
 			// needs a directly adjacent water block
-			$block_type_v = $vec->getSide($face);
-			$block_type = $world->getBlockAt($block_type_v->x, $block_type_v->y, $block_type_v->z)->getId();
-			if($block_type === BlockLegacyIds::STILL_WATER || $block_type === BlockLegacyIds::FLOWING_WATER){
-				$adjacent_water = true;
+			$blockTypeV = $vec->getSide($face);
+			$blockType = $world->getBlockAt($blockTypeV->x, $blockTypeV->y, $blockTypeV->z)->getId();
+			if($blockType === BlockLegacyIds::STILL_WATER || $blockType === BlockLegacyIds::FLOWING_WATER){
+				$adjacentWater = true;
 				break;
 			}
 		}
-		if(!$adjacent_water){
+		if(!$adjacentWater){
 			return false;
 		}
 		for($n = 0; $n <= $random->nextBoundedInt($random->nextBoundedInt(3) + 1) + 1; ++$n){
-			$block = $world->getBlockAt($source_x, $source_y + $n - 1, $source_z);
-			$block_id = $block->getId();
-			if($block_id === BlocKLegacyIds::SUGARCANE_BLOCK
-				|| $block_id === BlocKLegacyIds::GRASS
-				|| $block_id === BlocKLegacyIds::SAND
+			$block = $world->getBlockAt($sourceX, $sourceY + $n - 1, $sourceZ);
+			$blockId = $block->getId();
+			if($blockId === BlocKLegacyIds::SUGARCANE_BLOCK
+				|| $blockId === BlocKLegacyIds::GRASS
+				|| $blockId === BlocKLegacyIds::SAND
 				|| ($block instanceof Dirt && !$block->isCoarse())
 			){
-				$cane_block = $world->getBlockAt($source_x, $source_y + $n, $source_z);
-				if($cane_block->getId() !== BlockLegacyIds::AIR && $world->getBlockAt($source_x, $source_y + $n + 1, $source_z)->getId() !== BlockLegacyIds::AIR){
+				$caneBlock = $world->getBlockAt($sourceX, $sourceY + $n, $sourceZ);
+				if($caneBlock->getId() !== BlockLegacyIds::AIR && $world->getBlockAt($sourceX, $sourceY + $n + 1, $sourceZ)->getId() !== BlockLegacyIds::AIR){
 					return $n > 0;
 				}
 
-				$world->setBlockAt($source_x, $source_y + $n, $source_z, VanillaBlocks::SUGARCANE());
+				$world->setBlockAt($sourceX, $sourceY + $n, $sourceZ, VanillaBlocks::SUGARCANE());
 			}
 		}
 		return true;

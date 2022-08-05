@@ -12,34 +12,34 @@ class RarePlainsMapLayer extends MapLayer{
 	/** @var int[] */
 	private static array $RARE_PLAINS = [BiomeIds::PLAINS => BiomeIds::SUNFLOWER_PLAINS];
 
-	private MapLayer $below_layer;
+	private MapLayer $belowLayer;
 
-	public function __construct(int $seed, MapLayer $below_layer){
+	public function __construct(int $seed, MapLayer $belowLayer){
 		parent::__construct($seed);
-		$this->below_layer = $below_layer;
+		$this->belowLayer = $belowLayer;
 	}
 
-	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{
-		$grid_x = $x - 1;
-		$grid_z = $z - 1;
-		$grid_size_x = $size_x + 2;
-		$grid_size_z = $size_z + 2;
+	public function generateValues(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		$gridX = $x - 1;
+		$gridZ = $z - 1;
+		$gridSizeX = $sizeX + 2;
+		$gridSizeZ = $sizeZ + 2;
 
-		$values = $this->below_layer->generateValues($grid_x, $grid_z, $grid_size_x, $grid_size_z);
+		$values = $this->belowLayer->generateValues($gridX, $gridZ, $gridSizeX, $gridSizeZ);
 
-		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
+		$finalValues = [];
+		for($i = 0; $i < $sizeZ; ++$i){
+			for($j = 0; $j < $sizeX; ++$j){
 				$this->setCoordsSeed($x + $j, $z + $i);
-				$center_value = $values[$j + 1 + ($i + 1) * $grid_size_x];
-				if($this->nextInt(57) === 0 && array_key_exists($center_value, self::$RARE_PLAINS)){
-					$center_value = self::$RARE_PLAINS[$center_value];
+				$centerValue = $values[$j + 1 + ($i + 1) * $gridSizeX];
+				if($this->nextInt(57) === 0 && array_key_exists($centerValue, self::$RARE_PLAINS)){
+					$centerValue = self::$RARE_PLAINS[$centerValue];
 				}
 
-				$final_values[$j + $i * $size_x] = $center_value;
+				$finalValues[$j + $i * $sizeX] = $centerValue;
 			}
 		}
 
-		return $final_values;
+		return $finalValues;
 	}
 }

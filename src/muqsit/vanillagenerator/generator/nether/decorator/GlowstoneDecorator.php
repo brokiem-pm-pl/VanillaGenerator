@@ -17,52 +17,52 @@ class GlowstoneDecorator extends Decorator{
 
 	private const SIDES = [Facing::EAST, Facing::WEST, Facing::DOWN, Facing::UP, Facing::SOUTH, Facing::NORTH];
 
-	private bool $variable_amount;
+	private bool $variableAmount;
 
-	public function __construct(bool $variable_amount = false){
-		$this->variable_amount = $variable_amount;
+	public function __construct(bool $variableAmount = false){
+		$this->variableAmount = $variableAmount;
 	}
 
-	public function decorate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		$amount = $this->variable_amount ? 1 + $random->nextBoundedInt(1 + $random->nextBoundedInt(10)) : 10;
+	public function decorate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		$amount = $this->variableAmount ? 1 + $random->nextBoundedInt(1 + $random->nextBoundedInt(10)) : 10;
 
 		$height = $world->getMaxY();
-		$source_y_margin = 8 * ($height >> 7);
+		$sourceYMargin = 8 * ($height >> 7);
 
 		for($i = 0; $i < $amount; ++$i){
-			$source_x = ($chunk_x << 4) + $random->nextBoundedInt(16);
-			$source_z = ($chunk_z << 4) + $random->nextBoundedInt(16);
-			$source_y = 4 + $random->nextBoundedInt($height - $source_y_margin);
+			$sourceX = ($chunkX << 4) + $random->nextBoundedInt(16);
+			$sourceZ = ($chunkZ << 4) + $random->nextBoundedInt(16);
+			$sourceY = 4 + $random->nextBoundedInt($height - $sourceYMargin);
 
-			$block = $world->getBlockAt($source_x, $source_y, $source_z);
+			$block = $world->getBlockAt($sourceX, $sourceY, $sourceZ);
 			if(
 				$block->getId() !== BlockLegacyIds::AIR ||
-				$world->getBlockAt($source_x, $source_y + 1, $source_z)->getId() !== BlockLegacyIds::NETHERRACK
+				$world->getBlockAt($sourceX, $sourceY + 1, $sourceZ)->getId() !== BlockLegacyIds::NETHERRACK
 			){
 				continue;
 			}
 
-			$world->setBlockAt($source_x, $source_y, $source_z, VanillaBlocks::GLOWSTONE());
+			$world->setBlockAt($sourceX, $sourceY, $sourceZ, VanillaBlocks::GLOWSTONE());
 
 			for($j = 0; $j < 1500; ++$j){
-				$x = $source_x + $random->nextBoundedInt(8) - $random->nextBoundedInt(8);
-				$z = $source_z + $random->nextBoundedInt(8) - $random->nextBoundedInt(8);
-				$y = $source_y - $random->nextBoundedInt(12);
+				$x = $sourceX + $random->nextBoundedInt(8) - $random->nextBoundedInt(8);
+				$z = $sourceZ + $random->nextBoundedInt(8) - $random->nextBoundedInt(8);
+				$y = $sourceY - $random->nextBoundedInt(12);
 				$block = $world->getBlockAt($x, $y, $z);
 				if($block->getId() !== BlockLegacyIds::AIR){
 					continue;
 				}
 
-				$glowstone_block_count = 0;
+				$glowstoneBlockCount = 0;
 				$vector = new Vector3($x, $y, $z);
 				foreach(self::SIDES as $face){
 					$pos = $vector->getSide($face);
 					if($world->getBlockAt($pos->x, $pos->y, $pos->z)->getId() === BlockLegacyIds::GLOWSTONE){
-						++$glowstone_block_count;
+						++$glowstoneBlockCount;
 					}
 				}
 
-				if($glowstone_block_count === 1){
+				if($glowstoneBlockCount === 1){
 					$world->setBlockAt($x, $y, $z, VanillaBlocks::GLOWSTONE());
 				}
 			}

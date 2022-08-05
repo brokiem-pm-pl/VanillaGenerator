@@ -30,9 +30,9 @@ class RoofedForestPopulator extends ForestPopulator{
 	}
 
 	protected function initPopulators() : void{
-		$this->tree_decorator->setAmount(50);
-		$this->tree_decorator->setTrees(...self::$TREES);
-		$this->tall_grass_decorator->setAmount(4);
+		$this->treeDecorator->setAmount(50);
+		$this->treeDecorator->setTrees(...self::$TREES);
+		$this->tallGrassDecorator->setAmount(4);
 	}
 
 	public function getBiomes() : ?array{

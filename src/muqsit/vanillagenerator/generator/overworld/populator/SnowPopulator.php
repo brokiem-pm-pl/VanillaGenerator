@@ -13,7 +13,7 @@ use pocketmine\world\format\Chunk;
 use function in_array;
 
 class SnowPopulator implements Populator {
-	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void {
+	public function populate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void {
 		$disallowedBlocks = [
 			VanillaBlocks::WATER()->getFullId(),
 			VanillaBlocks::WATER()->setStill()->getFullId(),
@@ -37,8 +37,8 @@ class SnowPopulator implements Populator {
 		$grass = VanillaBlocks::GRASS()->getFullId();
 		$snow = VanillaBlocks::SNOW_LAYER()->getFullId();
 
-		$sourceX = $chunk_x << 4;
-		$sourceZ = $chunk_z << 4;
+		$sourceX = $chunkX << 4;
+		$sourceZ = $chunkZ << 4;
 		for($x = 0; $x < 16; ++$x) {
 			for($z = 0; $z < 16; ++$z) {
 				$y = ($chunk->getHighestBlockAt($x, $z) ?? 0);

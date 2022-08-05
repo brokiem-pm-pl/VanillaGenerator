@@ -46,7 +46,7 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 		[2, 1, 0, 3], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [3, 1, 0, 2], [0, 0, 0, 0], [3, 2, 0, 1], [3, 2, 1, 0]
 	];
 
-	protected static float $offset_w;
+	protected static float $offsetW;
 	private static ?SimplexNoiseGenerator $instance;
 
 	public static function getInstance() : SimplexNoiseGenerator{
@@ -71,7 +71,7 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 	public function __construct(?Random $rand = null){
 		parent::__construct($rand);
 		if($rand !== null){
-			self::$offset_w = $rand->nextFloat() * 256;
+			self::$offsetW = $rand->nextFloat() * 256;
 		}
 	}
 
@@ -104,8 +104,8 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 
 	public function noise3d(float $xin, float $yin = 0.0, float $zin = 0.0) : float{
 		if($zin === 0.0){
-			$xin += $this->offset_x;
-			$yin += $this->offset_y;
+			$xin += $this->offsetX;
+			$yin += $this->offsetY;
 
 			// n0, n1, n2 - Noise contributions from the three corners
 
@@ -178,9 +178,9 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 			return 70.0 * ($n0 + $n1 + $n2);
 		}
 
-		$xin += $this->offset_x;
-		$yin += $this->offset_y;
-		$zin += $this->offset_z;
+		$xin += $this->offsetX;
+		$yin += $this->offsetY;
+		$zin += $this->offsetZ;
 
 		// n0, n1, n2, n3 - Noise contributions from the four corners
 
@@ -324,10 +324,10 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 	 * @return float noise at given location, from range -1 to 1
 	 */
 	public function noise(float $x, float $y, float $z, float $w) : float{
-		$x += $this->offset_x;
-		$y += $this->offset_y;
-		$z += $this->offset_z;
-		$w += self::$offset_w;
+		$x += $this->offsetX;
+		$y += $this->offsetY;
+		$z += $this->offsetZ;
+		$w += self::$offsetW;
 
 		// n0, n1, n2, n3, n5 - Noise contributions from the five corners
 

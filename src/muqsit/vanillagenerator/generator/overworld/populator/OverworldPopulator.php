@@ -36,7 +36,7 @@ use function array_values;
 class OverworldPopulator implements Populator{
 
 	/** @var Populator[] */
-	private array $biome_populators = []; // key = biomeId
+	private array $biomePopulators = []; // key = biomeId
 
 	/**
 	 * Creates a populator with biome populators for all vanilla overworld biomes.
@@ -72,10 +72,10 @@ class OverworldPopulator implements Populator{
 		*/
 	}
 
-	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
+	public function populate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
 		$biome = $chunk->getBiomeId(8, 8);
-		if(array_key_exists($biome, $this->biome_populators)){
-			$this->biome_populators[$biome]->populate($world, $random, $chunk_x, $chunk_z, $chunk);
+		if(array_key_exists($biome, $this->biomePopulators)){
+			$this->biomePopulators[$biome]->populate($world, $random, $chunkX, $chunkZ, $chunk);
 		}
 	}
 
@@ -86,7 +86,7 @@ class OverworldPopulator implements Populator{
 		}
 
 		foreach($biomes as $biome){
-			$this->biome_populators[$biome] = $populator;
+			$this->biomePopulators[$biome] = $populator;
 		}
 	}
 }

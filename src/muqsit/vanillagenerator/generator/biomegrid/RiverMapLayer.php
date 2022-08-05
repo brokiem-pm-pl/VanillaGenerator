@@ -22,68 +22,68 @@ class RiverMapLayer extends MapLayer{
 	private static int $CLEAR_VALUE = 0;
 	private static int $RIVER_VALUE = 1;
 
-	private MapLayer $below_layer;
-	private ?MapLayer $merge_layer;
+	private MapLayer $belowLayer;
+	private ?MapLayer $mergeLayer;
 
-	public function __construct(int $seed, MapLayer $below_layer, ?MapLayer $merge_layer = null){
+	public function __construct(int $seed, MapLayer $belowLayer, ?MapLayer $mergeLayer = null){
 		parent::__construct($seed);
-		$this->below_layer = $below_layer;
-		$this->merge_layer = $merge_layer;
+		$this->belowLayer = $belowLayer;
+		$this->mergeLayer = $mergeLayer;
 	}
 
-	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{
-		if($this->merge_layer === null){
-			return $this->generateRivers($x, $z, $size_x, $size_z);
+	public function generateValues(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		if($this->mergeLayer === null){
+			return $this->generateRivers($x, $z, $sizeX, $sizeZ);
 		}
 
-		return $this->mergeRivers($x, $z, $size_x, $size_z);
+		return $this->mergeRivers($x, $z, $sizeX, $sizeZ);
 	}
 
 	/**
 	 * @return int[]
 	 */
-	private function generateRivers(int $x, int $z, int $size_x, int $size_z) : array{
-		$grid_x = $x - 1;
-		$grid_z = $z - 1;
-		$grid_size_x = $size_x + 2;
-		$grid_size_z = $size_z + 2;
+	private function generateRivers(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		$gridX = $x - 1;
+		$gridZ = $z - 1;
+		$gridSizeX = $sizeX + 2;
+		$gridSizeZ = $sizeZ + 2;
 
-		$values = $this->below_layer->generateValues($grid_x, $grid_z, $grid_size_x, $grid_size_z);
-		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
+		$values = $this->belowLayer->generateValues($gridX, $gridZ, $gridSizeX, $gridSizeZ);
+		$finalValues = [];
+		for($i = 0; $i < $sizeZ; ++$i){
+			for($j = 0; $j < $sizeX; ++$j){
 				// This applies rivers using Von Neumann neighborhood
-				$center_val = $values[$j + 1 + ($i + 1) * $grid_size_x] & 1;
-				$upper_val = $values[$j + 1 + $i * $grid_size_x] & 1;
-				$lower_val = $values[$j + 1 + ($i + 2) * $grid_size_x] & 1;
-				$left_val = $values[$j + ($i + 1) * $grid_size_x] & 1;
-				$right_val = $values[$j + 2 + ($i + 1) * $grid_size_x] & 1;
+				$centerVal = $values[$j + 1 + ($i + 1) * $gridSizeX] & 1;
+				$upperVal = $values[$j + 1 + $i * $gridSizeX] & 1;
+				$lowerVal = $values[$j + 1 + ($i + 2) * $gridSizeX] & 1;
+				$leftVal = $values[$j + ($i + 1) * $gridSizeX] & 1;
+				$rightVal = $values[$j + 2 + ($i + 1) * $gridSizeX] & 1;
 				$val = self::$CLEAR_VALUE;
-				if($center_val !== $upper_val || $center_val !== $lower_val || $center_val !== $left_val || $center_val !== $right_val){
+				if($centerVal !== $upperVal || $centerVal !== $lowerVal || $centerVal !== $leftVal || $centerVal !== $rightVal){
 					$val = self::$RIVER_VALUE;
 				}
-				$final_values[$j + $i * $size_x] = $val;
+				$finalValues[$j + $i * $sizeX] = $val;
 			}
 		}
-		return $final_values;
+		return $finalValues;
 	}
 
 	/**
 	 * @return int[]
 	 */
-	private function mergeRivers(int $x, int $z, int $size_x, int $size_z) : array{
-		$values = $this->below_layer->generateValues($x, $z, $size_x, $size_z);
-		$merge_values = $this->merge_layer->generateValues($x, $z, $size_x, $size_z);
+	private function mergeRivers(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		$values = $this->belowLayer->generateValues($x, $z, $sizeX, $sizeZ);
+		$mergeValues = $this->mergeLayer->generateValues($x, $z, $sizeX, $sizeZ);
 
-		$final_values = [];
-		for($i = 0; $i < $size_x * $size_z; ++$i){
-			$val = $merge_values[$i];
-			if(!array_key_exists($merge_values[$i], self::$OCEANS) && $values[$i] === self::$RIVER_VALUE){
-				$val = self::$SPECIAL_RIVERS[$merge_values[$i]] ?? BiomeIds::RIVER;
+		$finalValues = [];
+		for($i = 0; $i < $sizeX * $sizeZ; ++$i){
+			$val = $mergeValues[$i];
+			if(!array_key_exists($mergeValues[$i], self::$OCEANS) && $values[$i] === self::$RIVER_VALUE){
+				$val = self::$SPECIAL_RIVERS[$mergeValues[$i]] ?? BiomeIds::RIVER;
 			}
-			$final_values[$i] = $val;
+			$finalValues[$i] = $val;
 		}
 
-		return $final_values;
+		return $finalValues;
 	}
 }

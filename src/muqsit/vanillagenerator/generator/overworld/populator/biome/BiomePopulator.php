@@ -55,122 +55,122 @@ class BiomePopulator implements Populator{
 		];
 	}
 
-	protected LakeDecorator $water_lake_decorator;
+	protected LakeDecorator $waterLakeDecorator;
 
-	protected LakeDecorator $lava_lake_decorator;
+	protected LakeDecorator $lavaLakeDecorator;
 
-	protected OrePopulator $ore_populator;
+	protected OrePopulator $orePopulator;
 
-	protected UnderwaterDecorator $sand_patch_decorator;
+	protected UnderwaterDecorator $sandPatchDecorator;
 
-	protected UnderwaterDecorator $clay_patch_decorator;
+	protected UnderwaterDecorator $clayPatchDecorator;
 
-	protected UnderwaterDecorator $gravel_patch_decorator;
+	protected UnderwaterDecorator $gravelPatchDecorator;
 
-	protected DoublePlantDecorator $double_plant_decorator;
+	protected DoublePlantDecorator $doublePlantDecorator;
 
-	protected TreeDecorator $tree_decorator;
+	protected TreeDecorator $treeDecorator;
 
-	protected FlowerDecorator $flower_decorator;
+	protected FlowerDecorator $flowerDecorator;
 
-	protected TallGrassDecorator $tall_grass_decorator;
+	protected TallGrassDecorator $tallGrassDecorator;
 
-	protected DeadBushDecorator $dead_bush_decorator;
+	protected DeadBushDecorator $deadBushDecorator;
 
-	protected MushroomDecorator $brown_mushroom_decorator;
+	protected MushroomDecorator $brownMushroomDecorator;
 
-	protected MushroomDecorator $red_mushroom_decorator;
+	protected MushroomDecorator $redMushroomDecorator;
 
-	protected SugarCaneDecorator $sugar_cane_decorator;
+	protected SugarCaneDecorator $sugarCaneDecorator;
 
-	protected PumpkinDecorator $pumpkin_decorator;
+	protected PumpkinDecorator $pumpkinDecorator;
 
-	protected CactusDecorator $cactus_decorator;
+	protected CactusDecorator $cactusDecorator;
 
-	protected SurfaceCaveDecorator $surface_cave_decorator;
-
-	/** @var Populator[] */
-	private array $in_ground_populators = [];
+	protected SurfaceCaveDecorator $surfaceCaveDecorator;
 
 	/** @var Populator[] */
-	private array $on_ground_populators = [];
+	private array $inGroundPopulators = [];
+
+	/** @var Populator[] */
+	private array $onGroundPopulators = [];
 
 	/**
 	 * Creates a populator for lakes; dungeons; caves; ores; sand, gravel and clay patches; desert
 	 * wells; and vegetation.
 	 */
 	public function __construct(){
-		$this->water_lake_decorator = new LakeDecorator(VanillaBlocks::WATER()->getStillForm(), 4);
-		$this->lava_lake_decorator = new LakeDecorator(VanillaBlocks::LAVA()->getStillForm(), 8, 8);
-		$this->ore_populator = new OrePopulator();
-		$this->sand_patch_decorator = new UnderwaterDecorator(VanillaBlocks::SAND());
-		$this->clay_patch_decorator = new UnderwaterDecorator(VanillaBlocks::CLAY());
-		$this->gravel_patch_decorator = new UnderwaterDecorator(VanillaBlocks::GRAVEL());
-		$this->double_plant_decorator = new DoublePlantDecorator();
-		$this->tree_decorator = new TreeDecorator();
-		$this->flower_decorator = new FlowerDecorator();
-		$this->tall_grass_decorator = new TallGrassDecorator();
-		$this->dead_bush_decorator = new DeadBushDecorator();
-		$this->brown_mushroom_decorator = new MushroomDecorator(VanillaBlocks::BROWN_MUSHROOM());
-		$this->red_mushroom_decorator = new MushroomDecorator(VanillaBlocks::RED_MUSHROOM());
-		$this->sugar_cane_decorator = new SugarCaneDecorator();
-		$this->pumpkin_decorator = new PumpkinDecorator();
-		$this->cactus_decorator = new CactusDecorator();
-		$this->surface_cave_decorator = new SurfaceCaveDecorator();
+		$this->waterLakeDecorator = new LakeDecorator(VanillaBlocks::WATER()->getStillForm(), 4);
+		$this->lavaLakeDecorator = new LakeDecorator(VanillaBlocks::LAVA()->getStillForm(), 8, 8);
+		$this->orePopulator = new OrePopulator();
+		$this->sandPatchDecorator = new UnderwaterDecorator(VanillaBlocks::SAND());
+		$this->clayPatchDecorator = new UnderwaterDecorator(VanillaBlocks::CLAY());
+		$this->gravelPatchDecorator = new UnderwaterDecorator(VanillaBlocks::GRAVEL());
+		$this->doublePlantDecorator = new DoublePlantDecorator();
+		$this->treeDecorator = new TreeDecorator();
+		$this->flowerDecorator = new FlowerDecorator();
+		$this->tallGrassDecorator = new TallGrassDecorator();
+		$this->deadBushDecorator = new DeadBushDecorator();
+		$this->brownMushroomDecorator = new MushroomDecorator(VanillaBlocks::BROWN_MUSHROOM());
+		$this->redMushroomDecorator = new MushroomDecorator(VanillaBlocks::RED_MUSHROOM());
+		$this->sugarCaneDecorator = new SugarCaneDecorator();
+		$this->pumpkinDecorator = new PumpkinDecorator();
+		$this->cactusDecorator = new CactusDecorator();
+		$this->surfaceCaveDecorator = new SurfaceCaveDecorator();
 
-		array_push($this->in_ground_populators,
-			$this->water_lake_decorator,
-			$this->lava_lake_decorator,
-			$this->surface_cave_decorator,
-			$this->ore_populator,
-			$this->sand_patch_decorator,
-			$this->clay_patch_decorator,
-			$this->gravel_patch_decorator
+		array_push($this->inGroundPopulators,
+			$this->waterLakeDecorator,
+			$this->lavaLakeDecorator,
+			$this->surfaceCaveDecorator,
+			$this->orePopulator,
+			$this->sandPatchDecorator,
+			$this->clayPatchDecorator,
+			$this->gravelPatchDecorator
 		);
 
-		array_push($this->on_ground_populators,
-			$this->double_plant_decorator,
-			$this->tree_decorator,
-			$this->flower_decorator,
-			$this->tall_grass_decorator,
-			$this->dead_bush_decorator,
-			$this->brown_mushroom_decorator,
-			$this->red_mushroom_decorator,
-			$this->sugar_cane_decorator,
-			$this->pumpkin_decorator,
-			$this->cactus_decorator
+		array_push($this->onGroundPopulators,
+			$this->doublePlantDecorator,
+			$this->treeDecorator,
+			$this->flowerDecorator,
+			$this->tallGrassDecorator,
+			$this->deadBushDecorator,
+			$this->brownMushroomDecorator,
+			$this->redMushroomDecorator,
+			$this->sugarCaneDecorator,
+			$this->pumpkinDecorator,
+			$this->cactusDecorator
 		);
 
 		$this->initPopulators();
 	}
 
 	protected function initPopulators() : void{
-		$this->water_lake_decorator->setAmount(1);
-		$this->lava_lake_decorator->setAmount(1);
-		$this->surface_cave_decorator->setAmount(1);
-		$this->sand_patch_decorator->setAmount(3);
-		$this->sand_patch_decorator->setRadii(7, 2);
-		$this->sand_patch_decorator->setOverridableBlocks(VanillaBlocks::DIRT(), VanillaBlocks::GRASS());
-		$this->clay_patch_decorator->setAmount(1);
-		$this->clay_patch_decorator->setRadii(4, 1);
-		$this->clay_patch_decorator->setOverridableBlocks(VanillaBlocks::DIRT());
-		$this->gravel_patch_decorator->setAmount(1);
-		$this->gravel_patch_decorator->setRadii(6, 2);
-		$this->gravel_patch_decorator->setOverridableBlocks(VanillaBlocks::DIRT(), VanillaBlocks::GRASS());
+		$this->waterLakeDecorator->setAmount(1);
+		$this->lavaLakeDecorator->setAmount(1);
+		$this->surfaceCaveDecorator->setAmount(1);
+		$this->sandPatchDecorator->setAmount(3);
+		$this->sandPatchDecorator->setRadii(7, 2);
+		$this->sandPatchDecorator->setOverridableBlocks(VanillaBlocks::DIRT(), VanillaBlocks::GRASS());
+		$this->clayPatchDecorator->setAmount(1);
+		$this->clayPatchDecorator->setRadii(4, 1);
+		$this->clayPatchDecorator->setOverridableBlocks(VanillaBlocks::DIRT());
+		$this->gravelPatchDecorator->setAmount(1);
+		$this->gravelPatchDecorator->setRadii(6, 2);
+		$this->gravelPatchDecorator->setOverridableBlocks(VanillaBlocks::DIRT(), VanillaBlocks::GRASS());
 
-		$this->double_plant_decorator->setAmount(0);
-		$this->tree_decorator->setAmount(PHP_INT_MIN);
-		$this->tree_decorator->setTrees(...self::$TREES);
-		$this->flower_decorator->setAmount(2);
-		$this->flower_decorator->setFlowers(...self::$FLOWERS);
-		$this->tall_grass_decorator->setAmount(1);
-		$this->dead_bush_decorator->setAmount(0);
-		$this->brown_mushroom_decorator->setAmount(1);
-		$this->brown_mushroom_decorator->setDensity(0.25);
-		$this->red_mushroom_decorator->setAmount(1);
-		$this->red_mushroom_decorator->setDensity(0.125);
-		$this->sugar_cane_decorator->setAmount(10);
-		$this->cactus_decorator->setAmount(0);
+		$this->doublePlantDecorator->setAmount(0);
+		$this->treeDecorator->setAmount(PHP_INT_MIN);
+		$this->treeDecorator->setTrees(...self::$TREES);
+		$this->flowerDecorator->setAmount(2);
+		$this->flowerDecorator->setFlowers(...self::$FLOWERS);
+		$this->tallGrassDecorator->setAmount(1);
+		$this->deadBushDecorator->setAmount(0);
+		$this->brownMushroomDecorator->setAmount(1);
+		$this->brownMushroomDecorator->setDensity(0.25);
+		$this->redMushroomDecorator->setAmount(1);
+		$this->redMushroomDecorator->setDensity(0.125);
+		$this->sugarCaneDecorator->setAmount(10);
+		$this->cactusDecorator->setAmount(0);
 	}
 
 	/**
@@ -183,20 +183,20 @@ class BiomePopulator implements Populator{
 		return null;
 	}
 
-	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		$this->populateInGround($world, $random, $chunk_x, $chunk_z, $chunk);
-		$this->populateOnGround($world, $random, $chunk_x, $chunk_z, $chunk);
+	public function populate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		$this->populateInGround($world, $random, $chunkX, $chunkZ, $chunk);
+		$this->populateOnGround($world, $random, $chunkX, $chunkZ, $chunk);
 	}
 
-	protected function populateInGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		foreach($this->in_ground_populators as $populator){
-			$populator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
+	protected function populateInGround(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		foreach($this->inGroundPopulators as $populator){
+			$populator->populate($world, $random, $chunkX, $chunkZ, $chunk);
 		}
 	}
 
-	protected function populateOnGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		foreach($this->on_ground_populators as $populator){
-			$populator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
+	protected function populateOnGround(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		foreach($this->onGroundPopulators as $populator){
+			$populator->populate($world, $random, $chunkX, $chunkZ, $chunk);
 		}
 	}
 }

@@ -33,24 +33,24 @@ class MegaTaigaPopulator extends TaigaPopulator{
 		return [BiomeIds::MEGA_TAIGA, BiomeIds::MEGA_TAIGA_HILLS];
 	}
 
-	protected StoneBoulderDecorator $stone_boulder_decorator;
+	protected StoneBoulderDecorator $stoneBoulderDecorator;
 
 	public function __construct(){
 		parent::__construct();
-		$this->stone_boulder_decorator = new StoneBoulderDecorator();
+		$this->stoneBoulderDecorator = new StoneBoulderDecorator();
 	}
 
 	protected function initPopulators() : void{
-		$this->tree_decorator->setTrees(...self::$TREES);
-		$this->tall_grass_decorator->setAmount(7);
-		$this->dead_bush_decorator->setAmount(0);
-		$this->taiga_brown_mushroom_decorator->setAmount(3);
-		$this->taiga_red_mushroom_decorator->setAmount(3);
+		$this->treeDecorator->setTrees(...self::$TREES);
+		$this->tallGrassDecorator->setAmount(7);
+		$this->deadBushDecorator->setAmount(0);
+		$this->taigaBrownMushroomDecorator->setAmount(3);
+		$this->taigaRedMushroomDecorator->setAmount(3);
 	}
 
-	protected function populateOnGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		$this->stone_boulder_decorator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
-		parent::populateOnGround($world, $random, $chunk_x, $chunk_z, $chunk);
+	protected function populateOnGround(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		$this->stoneBoulderDecorator->populate($world, $random, $chunkX, $chunkZ, $chunk);
+		parent::populateOnGround($world, $random, $chunkX, $chunkZ, $chunk);
 	}
 }
 

@@ -19,7 +19,7 @@ use muqsit\vanillagenerator\generator\noise\bukkit\OctaveGenerator;
 class NetherWorldOctaves extends WorldOctaves{
 
 	/** @phpstan-var X */
-	public OctaveGenerator $soul_sand;
+	public OctaveGenerator $soulSand;
 
 	/** @phpstan-var Y */
 	public OctaveGenerator $gravel;
@@ -27,23 +27,23 @@ class NetherWorldOctaves extends WorldOctaves{
 	/**
 	 * @phpstan-param T $height
 	 * @phpstan-param U $roughness
-	 * @phpstan-param U $roughness_2
+	 * @phpstan-param U $roughness2
 	 * @phpstan-param V $detail
 	 * @phpstan-param W $surface
-	 * @phpstan-param X $soul_sand
+	 * @phpstan-param X $soulSand
 	 * @phpstan-param Y $gravel
 	 */
 	public function __construct(
 		OctaveGenerator $height,
 		OctaveGenerator $roughness,
-		OctaveGenerator $roughness_2,
+		OctaveGenerator $roughness2,
 		OctaveGenerator $detail,
 		OctaveGenerator $surface,
-		OctaveGenerator $soul_sand,
+		OctaveGenerator $soulSand,
 		OctaveGenerator $gravel
 	){
-		parent::__construct($height, $roughness, $roughness_2, $detail, $surface);
-		$this->soul_sand = $soul_sand;
+		parent::__construct($height, $roughness, $roughness2, $detail, $surface);
+		$this->soulSand = $soulSand;
 		$this->gravel = $gravel;
 	}
 }

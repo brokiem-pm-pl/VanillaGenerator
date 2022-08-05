@@ -36,35 +36,35 @@ class FlowerForestPopulator extends ForestPopulator{
 		];
 	}
 
-	private OctaveGenerator $noise_gen;
+	private OctaveGenerator $noiseGen;
 
 	protected function initPopulators() : void{
 		parent::initPopulators();
-		$this->tree_decorator->setAmount(6);
-		$this->flower_decorator->setAmount(0);
-		$this->double_plant_lowering_amount = 1;
-		$this->noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves(new Random(2345), 1, 0, 0, 0);
-		$this->noise_gen->setScale(1 / 48.0);
+		$this->treeDecorator->setAmount(6);
+		$this->flowerDecorator->setAmount(0);
+		$this->doublePlantLoweringAmount = 1;
+		$this->noiseGen = SimplexOctaveGenerator::fromRandomAndOctaves(new Random(2345), 1, 0, 0, 0);
+		$this->noiseGen->setScale(1 / 48.0);
 	}
 
 	public function getBiomes() : ?array{
 		return [BiomeIds::FLOWER_FOREST];
 	}
 
-	public function populateOnGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		parent::populateOnGround($world, $random, $chunk_x, $chunk_z, $chunk);
+	public function populateOnGround(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		parent::populateOnGround($world, $random, $chunkX, $chunkZ, $chunk);
 
-		$source_x = $chunk_x << 4;
-		$source_z = $chunk_z << 4;
+		$sourceX = $chunkX << 4;
+		$sourceZ = $chunkZ << 4;
 
 		for($i = 0; $i < 100; ++$i){
 			$x = $random->nextBoundedInt(16);
 			$z = $random->nextBoundedInt(16);
 			$y = $random->nextBoundedInt($chunk->getHighestBlockAt($x, $z) + 32);
-			$noise = ($this->noise_gen->noise($x, $z, 0.5, 0, 2.0, false) + 1.0) / 2.0;
+			$noise = ($this->noiseGen->noise($x, $z, 0.5, 0, 2.0, false) + 1.0) / 2.0;
 			$noise = $noise < 0 ? 0 : (min($noise, 0.9999));
 			$flower = self::$FLOWERS[(int) ($noise * count(self::$FLOWERS))];
-			(new Flower($flower))->generate($world, $random, $source_x + $x, $y, $source_z + $z);
+			(new Flower($flower))->generate($world, $random, $sourceX + $x, $y, $sourceZ + $z);
 		}
 	}
 }

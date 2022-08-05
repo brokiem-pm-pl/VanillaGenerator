@@ -18,58 +18,58 @@ use function array_push;
 class NetherPopulator implements Populator{
 
 	/** @var Populator[] */
-	private array $in_ground_populators = [];
+	private array $inGroundPopulators = [];
 
 	/** @var Populator[] */
-	private array $on_ground_populators = [];
+	private array $onGroundPopulators = [];
 
-	private OrePopulator $ore_populator;
-	private FireDecorator $fire_decorator;
-	private GlowstoneDecorator $glowstone_decorator_1;
-	private GlowstoneDecorator $glowstone_decorator_2;
-	private MushroomDecorator $brown_mushroom_decorator;
-	private MushroomDecorator $red_mushroom_decorator;
+	private OrePopulator $orePopulator;
+	private FireDecorator $fireDecorator;
+	private GlowstoneDecorator $glowstoneDecorator1;
+	private GlowstoneDecorator $glowstoneDecorator2;
+	private MushroomDecorator $brownMushroomDecorator;
+	private MushroomDecorator $redMushroomDecorator;
 
-	public function __construct(int $world_height = World::Y_MAX){
-		$this->ore_populator = new OrePopulator($world_height);
-		$this->in_ground_populators[] = $this->ore_populator;
+	public function __construct(int $worldHeight = World::Y_MAX){
+		$this->orePopulator = new OrePopulator($worldHeight);
+		$this->inGroundPopulators[] = $this->orePopulator;
 
-		$this->fire_decorator = new FireDecorator();
-		$this->glowstone_decorator_1 = new GlowstoneDecorator(true);
-		$this->glowstone_decorator_2 = new GlowstoneDecorator();
-		$this->brown_mushroom_decorator = new MushroomDecorator(VanillaBlocks::BROWN_MUSHROOM());
-		$this->red_mushroom_decorator = new MushroomDecorator(VanillaBlocks::RED_MUSHROOM());
+		$this->fireDecorator = new FireDecorator();
+		$this->glowstoneDecorator1 = new GlowstoneDecorator(true);
+		$this->glowstoneDecorator2 = new GlowstoneDecorator();
+		$this->brownMushroomDecorator = new MushroomDecorator(VanillaBlocks::BROWN_MUSHROOM());
+		$this->redMushroomDecorator = new MushroomDecorator(VanillaBlocks::RED_MUSHROOM());
 
-		array_push($this->on_ground_populators,
-			$this->fire_decorator,
-			$this->glowstone_decorator_1,
-			$this->glowstone_decorator_2,
-			$this->fire_decorator,
-			$this->brown_mushroom_decorator,
-			$this->red_mushroom_decorator
+		array_push($this->onGroundPopulators,
+			$this->fireDecorator,
+			$this->glowstoneDecorator1,
+			$this->glowstoneDecorator2,
+			$this->fireDecorator,
+			$this->brownMushroomDecorator,
+			$this->redMushroomDecorator
 		);
 
-		$this->fire_decorator->setAmount(1);
-		$this->glowstone_decorator_1->setAmount(1);
-		$this->glowstone_decorator_2->setAmount(1);
-		$this->brown_mushroom_decorator->setAmount(1);
-		$this->red_mushroom_decorator->setAmount(1);
+		$this->fireDecorator->setAmount(1);
+		$this->glowstoneDecorator1->setAmount(1);
+		$this->glowstoneDecorator2->setAmount(1);
+		$this->brownMushroomDecorator->setAmount(1);
+		$this->redMushroomDecorator->setAmount(1);
 	}
 
-	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		$this->populateInGround($world, $random, $chunk_x, $chunk_z, $chunk);
-		$this->populateOnGround($world, $random, $chunk_x, $chunk_z, $chunk);
+	public function populate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		$this->populateInGround($world, $random, $chunkX, $chunkZ, $chunk);
+		$this->populateOnGround($world, $random, $chunkX, $chunkZ, $chunk);
 	}
 
-	private function populateInGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		foreach($this->in_ground_populators as $populator){
-			$populator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
+	private function populateInGround(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		foreach($this->inGroundPopulators as $populator){
+			$populator->populate($world, $random, $chunkX, $chunkZ, $chunk);
 		}
 	}
 
-	private function populateOnGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		foreach($this->on_ground_populators as $populator){
-			$populator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
+	private function populateOnGround(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		foreach($this->onGroundPopulators as $populator){
+			$populator->populate($world, $random, $chunkX, $chunkZ, $chunk);
 		}
 	}
 }

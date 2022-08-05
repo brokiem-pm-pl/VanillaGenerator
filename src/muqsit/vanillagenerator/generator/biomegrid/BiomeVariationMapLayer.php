@@ -44,21 +44,21 @@ class BiomeVariationMapLayer extends MapLayer{
 		}
 	}
 
-	private MapLayer $below_layer;
-	private ?MapLayer $variation_layer;
+	private MapLayer $belowLayer;
+	private ?MapLayer $variationLayer;
 
-	public function __construct(int $seed, MapLayer $below_layer, ?MapLayer $variation_layer = null){
+	public function __construct(int $seed, MapLayer $belowLayer, ?MapLayer $variationLayer = null){
 		parent::__construct($seed);
-		$this->below_layer = $below_layer;
-		$this->variation_layer = $variation_layer;
+		$this->belowLayer = $belowLayer;
+		$this->variationLayer = $variationLayer;
 	}
 
-	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{
-		if($this->variation_layer === null){
-			return $this->generateRandomValues($x, $z, $size_x, $size_z);
+	public function generateValues(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		if($this->variationLayer === null){
+			return $this->generateRandomValues($x, $z, $sizeX, $sizeZ);
 		}
 
-		return $this->mergeValues($x, $z, $size_x, $size_z);
+		return $this->mergeValues($x, $z, $sizeX, $sizeZ);
 	}
 
 	/**
@@ -67,25 +67,25 @@ class BiomeVariationMapLayer extends MapLayer{
 	 *
 	 * @param int $x the lowest x coordinate
 	 * @param int $z the lowest z coordinate
-	 * @param int $size_x the x coordinate range
-	 * @param int $size_z the z coordinate range
+	 * @param int $sizeX the x coordinate range
+	 * @param int $sizeZ the z coordinate range
 	 * @return int[] a flattened array of generated values
 	 */
-	public function generateRandomValues(int $x, int $z, int $size_x, int $size_z) : array{
-		$values = $this->below_layer->generateValues($x, $z, $size_x, $size_z);
-		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
-				$val = $values[$j + $i * $size_x];
+	public function generateRandomValues(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		$values = $this->belowLayer->generateValues($x, $z, $sizeX, $sizeZ);
+		$finalValues = [];
+		for($i = 0; $i < $sizeZ; ++$i){
+			for($j = 0; $j < $sizeX; ++$j){
+				$val = $values[$j + $i * $sizeX];
 				if($val > 0){
 					$this->setCoordsSeed($x + $j, $z + $i);
 					$val = $this->nextInt(30) + 2;
 				}
-				$final_values[$j + $i * $size_x] = $val;
+				$finalValues[$j + $i * $sizeX] = $val;
 			}
 		}
 
-		return $final_values;
+		return $finalValues;
 	}
 
 	/**
@@ -93,63 +93,63 @@ class BiomeVariationMapLayer extends MapLayer{
 	 *
 	 * @param int $x the lowest x coordinate
 	 * @param int $z the lowest z coordinate
-	 * @param int $size_x the x coordinate range
-	 * @param int $size_z the z coordinate range
+	 * @param int $sizeX the x coordinate range
+	 * @param int $sizeZ the z coordinate range
 	 * @return int[] a flattened array of generated values
 	 */
-	public function mergeValues(int $x, int $z, int $size_x, int $size_z) : array{
-		$grid_x = $x - 1;
-		$grid_z = $z - 1;
-		$grid_size_x = $size_x + 2;
-		$grid_size_z = $size_z + 2;
+	public function mergeValues(int $x, int $z, int $sizeX, int $sizeZ) : array{
+		$gridX = $x - 1;
+		$gridZ = $z - 1;
+		$gridSizeX = $sizeX + 2;
+		$gridSizeZ = $sizeZ + 2;
 
-		$values = $this->below_layer->generateValues($grid_x, $grid_z, $grid_size_x, $grid_size_z);
-		$variation_values = $this->variation_layer->generateValues($grid_x, $grid_z, $grid_size_x, $grid_size_z);
+		$values = $this->belowLayer->generateValues($gridX, $gridZ, $gridSizeX, $gridSizeZ);
+		$variationValues = $this->variationLayer->generateValues($gridX, $gridZ, $gridSizeX, $gridSizeZ);
 
-		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
+		$finalValues = [];
+		for($i = 0; $i < $sizeZ; ++$i){
+			for($j = 0; $j < $sizeX; ++$j){
 				$this->setCoordsSeed($x + $j, $z + $i);
-				$center_value = $values[$j + 1 + ($i + 1) * $grid_size_x];
-				$variation_value = $variation_values[$j + 1 + ($i + 1) * $grid_size_x];
-				if($center_value !== 0 && $variation_value === 3 && $center_value < 128){
-					$final_values[$j + $i * $size_x] = array_key_exists($center_value + 128, self::$BIOMES) ? $center_value + 128 : $center_value;
-				}elseif($variation_value === 2 || $this->nextInt(3) === 0){
-					$val = $center_value;
-					if(array_key_exists($center_value, self::$VARIATIONS)){
-						$val = self::$VARIATIONS[$center_value][$this->nextInt(count(self::$VARIATIONS[$center_value]))];
-					}elseif($center_value === BiomeIds::DEEP_OCEAN && $this->nextInt(3) === 0){
+				$centerValue = $values[$j + 1 + ($i + 1) * $gridSizeX];
+				$variationValue = $variationValues[$j + 1 + ($i + 1) * $gridSizeX];
+				if($centerValue !== 0 && $variationValue === 3 && $centerValue < 128){
+					$finalValues[$j + $i * $sizeX] = array_key_exists($centerValue + 128, self::$BIOMES) ? $centerValue + 128 : $centerValue;
+				}elseif($variationValue === 2 || $this->nextInt(3) === 0){
+					$val = $centerValue;
+					if(array_key_exists($centerValue, self::$VARIATIONS)){
+						$val = self::$VARIATIONS[$centerValue][$this->nextInt(count(self::$VARIATIONS[$centerValue]))];
+					}elseif($centerValue === BiomeIds::DEEP_OCEAN && $this->nextInt(3) === 0){
 						$val = self::$ISLANDS[$this->nextInt(count(self::$ISLANDS))];
 					}
-					if($variation_value === 2 && $val !== $center_value){
-						$val = array_key_exists($val + 128, self::$BIOMES) ? $val + 128 : $center_value;
+					if($variationValue === 2 && $val !== $centerValue){
+						$val = array_key_exists($val + 128, self::$BIOMES) ? $val + 128 : $centerValue;
 					}
-					if($val !== $center_value){
+					if($val !== $centerValue){
 						$count = 0;
-						if($values[$j + 1 + $i * $grid_size_x] === $center_value){ // upper value
+						if($values[$j + 1 + $i * $gridSizeX] === $centerValue){ // upper value
 							++$count;
 						}
-						if($values[$j + 1 + ($i + 2) * $grid_size_x] === $center_value){ // lower value
+						if($values[$j + 1 + ($i + 2) * $gridSizeX] === $centerValue){ // lower value
 							++$count;
 						}
-						if($values[$j + ($i + 1) * $grid_size_x] === $center_value){ // left value
+						if($values[$j + ($i + 1) * $gridSizeX] === $centerValue){ // left value
 							++$count;
 						}
-						if($values[$j + 2 + ($i + 1) * $grid_size_x] === $center_value){ // right value
+						if($values[$j + 2 + ($i + 1) * $gridSizeX] === $centerValue){ // right value
 							++$count;
 						}
 						// spread mountains if not too close from an edge
-						$final_values[$j + $i * $size_x] = $count < 3 ? $center_value : $val;
+						$finalValues[$j + $i * $sizeX] = $count < 3 ? $centerValue : $val;
 					}else{
-						$final_values[$j + $i * $size_x] = $val;
+						$finalValues[$j + $i * $sizeX] = $val;
 					}
 				}else{
-					$final_values[$j + $i * $size_x] = $center_value;
+					$finalValues[$j + $i * $sizeX] = $centerValue;
 				}
 			}
 		}
 
-		return $final_values;
+		return $finalValues;
 	}
 }
 

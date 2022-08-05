@@ -9,16 +9,16 @@ class Climate{
 	public int $value;
 
 	/** @var int[] */
-	public array $cross_types;
+	public array $crossTypes;
 
-	public int $final_value;
+	public int $finalValue;
 
 	/**
-	 * @param int[] $cross_types
+	 * @param int[] $crossTypes
 	 */
-	public function __construct(int $value, array $cross_types, int $final_value){
+	public function __construct(int $value, array $crossTypes, int $finalValue){
 		$this->value = $value;
-		$this->cross_types = $cross_types;
-		$this->final_value = $final_value;
+		$this->crossTypes = $crossTypes;
+		$this->finalValue = $finalValue;
 	}
 }

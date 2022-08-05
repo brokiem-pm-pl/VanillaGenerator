@@ -22,9 +22,9 @@ class BirchForestPopulator extends ForestPopulator{
 	}
 
 	protected function initPopulators() : void{
-		$this->tree_decorator->setAmount(10);
-		$this->tree_decorator->setTrees(...self::$TREES);
-		$this->tall_grass_decorator->setAmount(2);
+		$this->treeDecorator->setAmount(10);
+		$this->treeDecorator->setTrees(...self::$TREES);
+		$this->tallGrassDecorator->setAmount(2);
 	}
 
 	public function getBiomes() : ?array{

@@ -27,35 +27,35 @@ class JungleBush extends GenericTree{
 		return $id === BlockLegacyIds::GRASS || $id === BlockLegacyIds::DIRT;
 	}
 
-	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{
-		while((($block_id = $world->getBlockAt($source_x, $source_y, $source_z)->getId()) === BlockLegacyIds::AIR || $block_id === BlockLegacyIds::LEAVES) && $source_y > 0){
-			--$source_y;
+	public function generate(ChunkManager $world, Random $random, int $sourceX, int $sourceY, int $sourceZ) : bool{
+		while((($blockId = $world->getBlockAt($sourceX, $sourceY, $sourceZ)->getId()) === BlockLegacyIds::AIR || $blockId === BlockLegacyIds::LEAVES) && $sourceY > 0){
+			--$sourceY;
 		}
 
 		// check only below block
-		if(!$this->canPlaceOn($world->getBlockAt($source_x, $source_y - 1, $source_z))){
+		if(!$this->canPlaceOn($world->getBlockAt($sourceX, $sourceY - 1, $sourceZ))){
 			return false;
 		}
 
 		// generates the trunk
-		$adjust_y = $source_y;
-		$this->transaction->addBlockAt($source_x, $adjust_y + 1, $source_z, $this->log_type);
+		$adjustY = $sourceY;
+		$this->transaction->addBlockAt($sourceX, $adjustY + 1, $sourceZ, $this->logType);
 
 		// generates the leaves
-		for($y = $adjust_y + 1; $y <= $adjust_y + 3; ++$y){
-			$radius = 3 - ($y - $adjust_y);
+		for($y = $adjustY + 1; $y <= $adjustY + 3; ++$y){
+			$radius = 3 - ($y - $adjustY);
 
-			for($x = $source_x - $radius; $x <= $source_x + $radius; ++$x){
-				for($z = $source_z - $radius; $z <= $source_z + $radius; ++$z){
+			for($x = $sourceX - $radius; $x <= $sourceX + $radius; ++$x){
+				for($z = $sourceZ - $radius; $z <= $sourceZ + $radius; ++$z){
 					if(
 						!$this->transaction->fetchBlockAt($x, $y, $z)->isSolid() &&
 						(
-							abs($x - $source_x) !== $radius ||
-							abs($z - $source_z) !== $radius ||
+							abs($x - $sourceX) !== $radius ||
+							abs($z - $sourceZ) !== $radius ||
 							$random->nextBoolean()
 						)
 					){
-						$this->transaction->addBlockAt($x, $y, $z, $this->leaves_type);
+						$this->transaction->addBlockAt($x, $y, $z, $this->leavesType);
 					}
 				}
 			}

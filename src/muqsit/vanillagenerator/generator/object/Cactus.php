@@ -18,21 +18,21 @@ class Cactus extends TerrainObject{
 	/**
 	 * Generates or extends a cactus, if there is space.
 	 */
-	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{
-		if($world->getBlockAt($source_x, $source_y, $source_z)->getId() === BlockLegacyIds::AIR){
+	public function generate(ChunkManager $world, Random $random, int $sourceX, int $sourceY, int $sourceZ) : bool{
+		if($world->getBlockAt($sourceX, $sourceY, $sourceZ)->getId() === BlockLegacyIds::AIR){
 			$height = $random->nextBoundedInt($random->nextBoundedInt(3) + 1) + 1;
-			for($n = $source_y; $n < $source_y + $height; ++$n){
-				$vec = new Vector3($source_x, $n, $source_z);
-				$type_below = $world->getBlockAt($source_x, $n - 1, $source_z)->getId();
-				if(($type_below === BlockLegacyIds::SAND || $type_below === BlockLegacyIds::CACTUS) && $world->getBlockAt($source_x, $n + 1, $source_z)->getId() === BlockLegacyIds::AIR){
+			for($n = $sourceY; $n < $sourceY + $height; ++$n){
+				$vec = new Vector3($sourceX, $n, $sourceZ);
+				$typeBelow = $world->getBlockAt($sourceX, $n - 1, $sourceZ)->getId();
+				if(($typeBelow === BlockLegacyIds::SAND || $typeBelow === BlockLegacyIds::CACTUS) && $world->getBlockAt($sourceX, $n + 1, $sourceZ)->getId() === BlockLegacyIds::AIR){
 					foreach(self::FACES as $face){
 						$face = $vec->getSide($face);
 						if($world->getBlockAt($face->x, $face->y, $face->z)->isSolid()){
-							return $n > $source_y;
+							return $n > $sourceY;
 						}
 					}
 
-					$world->setBlockAt($source_x, $n, $source_z, VanillaBlocks::CACTUS());
+					$world->setBlockAt($sourceX, $n, $sourceZ, VanillaBlocks::CACTUS());
 				}
 			}
 		}

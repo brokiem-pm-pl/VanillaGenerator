@@ -9,9 +9,9 @@ abstract class BaseOctaveGenerator{
 	/** @var NoiseGenerator[] */
 	protected array $octaves;
 
-	protected float $x_scale = 1.0;
-	protected float $y_scale = 1.0;
-	protected float $z_scale = 1.0;
+	protected float $xScale = 1.0;
+	protected float $yScale = 1.0;
+	protected float $zScale = 1.0;
 
 	/**
 	 * @param NoiseGenerator[] $octaves
@@ -40,7 +40,7 @@ abstract class BaseOctaveGenerator{
 	 * @return float X scale
 	 */
 	public function getXScale() : float{
-		return $this->x_scale;
+		return $this->xScale;
 	}
 
 	/**
@@ -49,7 +49,7 @@ abstract class BaseOctaveGenerator{
 	 * @param float $scale New X scale
 	 */
 	public function setXScale(float $scale) : void{
-		$this->x_scale = $scale;
+		$this->xScale = $scale;
 	}
 
 	/**
@@ -58,7 +58,7 @@ abstract class BaseOctaveGenerator{
 	 * @return float Y scale
 	 */
 	public function getYScale() : float{
-		return $this->y_scale;
+		return $this->yScale;
 	}
 
 	/**
@@ -67,7 +67,7 @@ abstract class BaseOctaveGenerator{
 	 * @param float $scale New Y scale
 	 */
 	public function setYScale(float $scale) : void{
-		$this->y_scale = $scale;
+		$this->yScale = $scale;
 	}
 
 	/**
@@ -76,7 +76,7 @@ abstract class BaseOctaveGenerator{
 	 * @return float Z scale
 	 */
 	public function getZScale() : float{
-		return $this->z_scale;
+		return $this->zScale;
 	}
 
 	/**
@@ -85,7 +85,7 @@ abstract class BaseOctaveGenerator{
 	 * @param float $scale New Z scale
 	 */
 	public function setZScale(float $scale) : void{
-		$this->z_scale = $scale;
+		$this->zScale = $scale;
 	}
 
 	/**

@@ -16,28 +16,28 @@ use function abs;
 
 class TallGrassDecorator extends Decorator{
 
-	private float $fern_density = 0.0;
+	private float $fernDensity = 0.0;
 
-	final public function setFernDensity(float $fern_density) : void{
-		$this->fern_density = $fern_density;
+	final public function setFernDensity(float $fernDensity) : void{
+		$this->fernDensity = $fernDensity;
 	}
 
-	public function decorate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
+	public function decorate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
 		$x = $random->nextBoundedInt(16);
 		$z = $random->nextBoundedInt(16);
-		$top_block = $chunk->getHighestBlockAt($x, $z);
-		if($top_block <= 0){
+		$topBlock = $chunk->getHighestBlockAt($x, $z);
+		if($topBlock <= 0){
 			// Nothing to do if this column is empty
 			return;
 		}
 
-		$source_y = $random->nextBoundedInt(abs($top_block << 1));
+		$sourceY = $random->nextBoundedInt(abs($topBlock << 1));
 
 		// the grass species can change on each decoration pass
 		$species = BlockLegacyMetadata::TALLGRASS_NORMAL;
-		if($this->fern_density > 0 && $random->nextFloat() < $this->fern_density){
+		if($this->fernDensity > 0 && $random->nextFloat() < $this->fernDensity){
 			$species = BlockLegacyMetadata::TALLGRASS_FERN;
 		}
-		(new TallGrass(BlockFactory::getInstance()->get(BlockLegacyIds::TALL_GRASS, $species)))->generate($world, $random, ($chunk_x << 4) + $x, $source_y, ($chunk_z << 4) + $z);
+		(new TallGrass(BlockFactory::getInstance()->get(BlockLegacyIds::TALL_GRASS, $species)))->generate($world, $random, ($chunkX << 4) + $x, $sourceY, ($chunkZ << 4) + $z);
 	}
 }

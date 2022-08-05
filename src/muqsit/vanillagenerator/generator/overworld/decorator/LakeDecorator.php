@@ -18,30 +18,30 @@ class LakeDecorator extends Decorator{
 
 	private int $rarity;
 
-	private int $base_offset;
+	private int $baseOffset;
 
 	/**
 	 * Creates a lake decorator.
 	 */
-	public function __construct(Block $type, int $rarity, int $base_offset = 0){
+	public function __construct(Block $type, int $rarity, int $baseOffset = 0){
 		$this->type = $type;
 		$this->rarity = $rarity;
-		$this->base_offset = $base_offset;
+		$this->baseOffset = $baseOffset;
 	}
 
-	public function decorate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
+	public function decorate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
 		if($random->nextBoundedInt($this->rarity) === 0){
-			$source_x = ($chunk_x << 4) + $random->nextBoundedInt(16);
-			$source_z = ($chunk_z << 4) + $random->nextBoundedInt(16);
-			$source_y = $random->nextBoundedInt($world->getMaxY() - $this->base_offset) + $this->base_offset;
-			if($this->type->getId() === BlockLegacyIds::STILL_LAVA && ($source_y >= 64 || $random->nextBoundedInt(10) > 0)){
+			$sourceX = ($chunkX << 4) + $random->nextBoundedInt(16);
+			$sourceZ = ($chunkZ << 4) + $random->nextBoundedInt(16);
+			$sourceY = $random->nextBoundedInt($world->getMaxY() - $this->baseOffset) + $this->baseOffset;
+			if($this->type->getId() === BlockLegacyIds::STILL_LAVA && ($sourceY >= 64 || $random->nextBoundedInt(10) > 0)){
 				return;
 			}
-			while($world->getBlockAt($source_x, $source_y, $source_z)->getId() === BlockLegacyIds::AIR && $source_y > 5){
-				--$source_y;
+			while($world->getBlockAt($sourceX, $sourceY, $sourceZ)->getId() === BlockLegacyIds::AIR && $sourceY > 5){
+				--$sourceY;
 			}
-			if($source_y >= 5){
-				(new Lake($this->type))->generate($world, $random, $source_x, $source_y, $source_z);
+			if($sourceY >= 5){
+				(new Lake($this->type))->generate($world, $random, $sourceX, $sourceY, $sourceZ);
 			}
 		}
 	}

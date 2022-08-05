@@ -16,9 +16,9 @@ class UnderwaterDecorator extends Decorator{
 
 	private Block $type;
 
-	private int $horiz_radius;
+	private int $horizRadius;
 
-	private int $vert_radius;
+	private int $vertRadius;
 
 	/** @var int[] */
 	private array $overridables;
@@ -30,13 +30,13 @@ class UnderwaterDecorator extends Decorator{
 	/**
 	 * Updates the size of this decorator.
 	 *
-	 * @param int $horiz_radius the maximum radius on the horizontal plane
-	 * @param int $vert_radius the depth above and below the center
+	 * @param int $horizRadius the maximum radius on the horizontal plane
+	 * @param int $vertRadius the depth above and below the center
 	 * @return UnderwaterDecorator this, updated
 	 */
-	final public function setRadii(int $horiz_radius, int $vert_radius) : UnderwaterDecorator{
-		$this->horiz_radius = $horiz_radius;
-		$this->vert_radius = $vert_radius;
+	final public function setRadii(int $horizRadius, int $vertRadius) : UnderwaterDecorator{
+		$this->horizRadius = $horizRadius;
+		$this->vertRadius = $vertRadius;
 		return $this;
 	}
 
@@ -47,22 +47,22 @@ class UnderwaterDecorator extends Decorator{
 		return $this;
 	}
 
-	public function decorate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		$source_x = ($chunk_x << 4) + $random->nextBoundedInt(16);
-		$source_z = ($chunk_z << 4) + $random->nextBoundedInt(16);
-		$source_y = $chunk->getHighestBlockAt($source_x & 0x0f, $source_z & 0x0f) - 1;
+	public function decorate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		$sourceX = ($chunkX << 4) + $random->nextBoundedInt(16);
+		$sourceZ = ($chunkZ << 4) + $random->nextBoundedInt(16);
+		$sourceY = $chunk->getHighestBlockAt($sourceX & 0x0f, $sourceZ & 0x0f) - 1;
 		while(
-			$source_y > 1 &&
+			$sourceY > 1 &&
 			(
-				($block_id = $world->getBlockAt($source_x, $source_y - 1, $source_z)->getId()) === BlockLegacyIds::STILL_WATER ||
-				$block_id === BlockLegacyIds::FLOWING_WATER
+				($blockId = $world->getBlockAt($sourceX, $sourceY - 1, $sourceZ)->getId()) === BlockLegacyIds::STILL_WATER ||
+				$blockId === BlockLegacyIds::FLOWING_WATER
 			)
 		){
-			--$source_y;
+			--$sourceY;
 		}
-		$material = $world->getBlockAt($source_x, $source_y, $source_z)->getId();
+		$material = $world->getBlockAt($sourceX, $sourceY, $sourceZ)->getId();
 		if($material === BlockLegacyIds::STILL_WATER || $material === BlockLegacyIds::FLOWING_WATER){
-			(new BlockPatch($this->type, $this->horiz_radius, $this->vert_radius, ...$this->overridables))->generate($world, $random, $source_x, $source_y, $source_z);
+			(new BlockPatch($this->type, $this->horizRadius, $this->vertRadius, ...$this->overridables))->generate($world, $random, $sourceX, $sourceY, $sourceZ);
 		}
 	}
 }

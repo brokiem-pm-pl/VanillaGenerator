@@ -17,16 +17,16 @@ class TreeDecorator extends Decorator{
 
 	/**
 	 * @param TreeDecoration[] $decorations
-	 * @return ?string $generic_tree_class a GenericTree class
+	 * @return ?string $genericTreeClass a GenericTree class
 	 */
 	private static function getRandomTree(Random $random, array $decorations) : ?string{
-		$total_weight = 0;
+		$totalWeight = 0;
 		foreach($decorations as $decoration){
-			$total_weight += $decoration->getWeight();
+			$totalWeight += $decoration->getWeight();
 		}
 
-		if($total_weight > 0){
-			$weight = $random->nextBoundedInt($total_weight);
+		if($totalWeight > 0){
+			$weight = $random->nextBoundedInt($totalWeight);
 			foreach($decorations as $decoration){
 				$weight -= $decoration->getWeight();
 				if($weight < 0){
@@ -45,21 +45,21 @@ class TreeDecorator extends Decorator{
 		$this->trees = $trees;
 	}
 
-	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
+	public function populate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
 		$treeAmount = $this->amount;
 		if($random->nextBoundedInt(10) === 0){
 			++$treeAmount;
 		}
 
 		for($i = 0; $i < $treeAmount; ++$i){
-			$this->decorate($world, $random, $chunk_x, $chunk_z, $chunk);
+			$this->decorate($world, $random, $chunkX, $chunkZ, $chunk);
 		}
 	}
 
-	public function decorate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
+	public function decorate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
 		$x = $random->nextBoundedInt(16);
 		$z = $random->nextBoundedInt(16);
-		$source_y = $chunk->getHighestBlockAt($x, $z);
+		$sourceY = $chunk->getHighestBlockAt($x, $z);
 
 		$class = self::getRandomTree($random, $this->trees);
 		if($class !== null){
@@ -70,7 +70,7 @@ class TreeDecorator extends Decorator{
 			}catch(Exception){
 				$tree = new GenericTree($random, $txn);
 			}
-			if($tree->generate($world, $random, ($chunk_x << 4) + $x, $source_y, ($chunk_z << 4) + $z)){
+			if($tree->generate($world, $random, ($chunkX << 4) + $x, $sourceY, ($chunkZ << 4) + $z)){
 				$txn->apply();
 			}
 		}

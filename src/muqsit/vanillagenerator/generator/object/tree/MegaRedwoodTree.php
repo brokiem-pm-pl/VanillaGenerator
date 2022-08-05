@@ -12,7 +12,7 @@ use function floor;
 
 class MegaRedwoodTree extends MegaJungleTree{
 
-	protected int $leaves_height;
+	protected int $leavesHeight;
 
 	public function __construct(Random $random, BlockTransaction $transaction){
 		parent::__construct($random, $transaction);
@@ -21,36 +21,36 @@ class MegaRedwoodTree extends MegaJungleTree{
 		$this->setLeavesHeight($random->nextBoundedInt(5) + ($random->nextBoolean() ? 3 : 13));
 	}
 
-	protected function setLeavesHeight(int $leaves_height) : void{
-		$this->leaves_height = $leaves_height;
+	protected function setLeavesHeight(int $leavesHeight) : void{
+		$this->leavesHeight = $leavesHeight;
 	}
 
-	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{
-		if($this->cannotGenerateAt($source_x, $source_y, $source_z, $world)){
+	public function generate(ChunkManager $world, Random $random, int $sourceX, int $sourceY, int $sourceZ) : bool{
+		if($this->cannotGenerateAt($sourceX, $sourceY, $sourceZ, $world)){
 			return false;
 		}
 
 		// generates the leaves
-		$previous_radius = 0;
-		for($y = $source_y + $this->height - $this->leaves_height; $y <= $source_y + $this->height; ++$y){
-			$n = $source_y + $this->height - $y;
-			$radius = (int) floor((float) $n / $this->leaves_height * 3.5);
-			if($radius === $previous_radius && $n > 0 && $y % 2 === 0){
+		$previousRadius = 0;
+		for($y = $sourceY + $this->height - $this->leavesHeight; $y <= $sourceY + $this->height; ++$y){
+			$n = $sourceY + $this->height - $y;
+			$radius = (int) floor((float) $n / $this->leavesHeight * 3.5);
+			if($radius === $previousRadius && $n > 0 && $y % 2 === 0){
 				++$radius;
 			}
-			$this->generateLeaves($source_x, $y, $source_z, $radius, false, $world);
-			$previous_radius = $radius;
+			$this->generateLeaves($sourceX, $y, $sourceZ, $radius, false, $world);
+			$previousRadius = $radius;
 		}
 
 		// generates the trunk
-		$this->generateTrunk($world, $source_x, $source_y, $source_z);
+		$this->generateTrunk($world, $sourceX, $sourceY, $sourceZ);
 
 		// blocks below trunk are always dirt
-		$this->generateDirtBelowTrunk($source_x, $source_y, $source_z);
+		$this->generateDirtBelowTrunk($sourceX, $sourceY, $sourceZ);
 		return true;
 	}
 
-	protected function generateDirtBelowTrunk(int $block_x, int $block_y, int $block_z) : void{
+	protected function generateDirtBelowTrunk(int $blockX, int $blockY, int $blockZ) : void{
 		// mega redwood tree does not replaces blocks below (surely to preserves podzol)
 	}
 }

@@ -35,41 +35,41 @@ class SwamplandPopulator extends BiomePopulator{
 		];
 	}
 
-	private MushroomDecorator $swampland_brown_mushroom_decorator;
-	private MushroomDecorator $swampland_red_mushroom_decorator;
-	private WaterLilyDecorator $waterlily_decorator;
+	private MushroomDecorator $swamplandBrownMushroomDecorator;
+	private MushroomDecorator $swamplandRedMushroomDecorator;
+	private WaterLilyDecorator $waterlilyDecorator;
 
 	public function __construct(){
-		$this->swampland_brown_mushroom_decorator = new MushroomDecorator(VanillaBlocks::BROWN_MUSHROOM());
-		$this->swampland_red_mushroom_decorator = new MushroomDecorator(VanillaBlocks::RED_MUSHROOM());
-		$this->waterlily_decorator = new WaterLilyDecorator();
+		$this->swamplandBrownMushroomDecorator = new MushroomDecorator(VanillaBlocks::BROWN_MUSHROOM());
+		$this->swamplandRedMushroomDecorator = new MushroomDecorator(VanillaBlocks::RED_MUSHROOM());
+		$this->waterlilyDecorator = new WaterLilyDecorator();
 		parent::__construct();
 	}
 
 	protected function initPopulators() : void{
-		$this->sand_patch_decorator->setAmount(0);
-		$this->gravel_patch_decorator->setAmount(0);
-		$this->tree_decorator->setAmount(2);
-		$this->tree_decorator->setTrees(...self::$TREES);
-		$this->flower_decorator->setAmount(1);
-		$this->flower_decorator->setFlowers(...self::$FLOWERS);
-		$this->tall_grass_decorator->setAmount(5);
-		$this->dead_bush_decorator->setAmount(1);
-		$this->sugar_cane_decorator->setAmount(20);
-		$this->swampland_brown_mushroom_decorator->setAmount(8);
-		$this->swampland_red_mushroom_decorator->setAmount(8);
-		$this->waterlily_decorator->setAmount(4);
+		$this->sandPatchDecorator->setAmount(0);
+		$this->gravelPatchDecorator->setAmount(0);
+		$this->treeDecorator->setAmount(2);
+		$this->treeDecorator->setTrees(...self::$TREES);
+		$this->flowerDecorator->setAmount(1);
+		$this->flowerDecorator->setFlowers(...self::$FLOWERS);
+		$this->tallGrassDecorator->setAmount(5);
+		$this->deadBushDecorator->setAmount(1);
+		$this->sugarCaneDecorator->setAmount(20);
+		$this->swamplandBrownMushroomDecorator->setAmount(8);
+		$this->swamplandRedMushroomDecorator->setAmount(8);
+		$this->waterlilyDecorator->setAmount(4);
 	}
 
 	public function getBiomes() : ?array{
 		return [BiomeIds::SWAMPLAND, BiomeIds::SWAMPLAND_MUTATED];
 	}
 
-	protected function populateOnGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		parent::populateOnGround($world, $random, $chunk_x, $chunk_z, $chunk);
-		$this->swampland_brown_mushroom_decorator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
-		$this->swampland_red_mushroom_decorator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
-		$this->waterlily_decorator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
+	protected function populateOnGround(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk) : void{
+		parent::populateOnGround($world, $random, $chunkX, $chunkZ, $chunk);
+		$this->swamplandBrownMushroomDecorator->populate($world, $random, $chunkX, $chunkZ, $chunk);
+		$this->swamplandRedMushroomDecorator->populate($world, $random, $chunkX, $chunkZ, $chunk);
+		$this->waterlilyDecorator->populate($world, $random, $chunkX, $chunkZ, $chunk);
 	}
 }
 

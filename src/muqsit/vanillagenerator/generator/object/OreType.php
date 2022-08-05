@@ -11,10 +11,10 @@ use pocketmine\utils\Random;
 class OreType{
 
 	private Block $type;
-	private int $min_y;
-	private int $max_y;
+	private int $minY;
+	private int $maxY;
 	private int $amount;
-	private int $target_type;
+	private int $targetType;
 
 	/**
 	 * Creates an ore type. If {@code min_y} and {@code max_y} are equal, then the height range is
@@ -22,17 +22,17 @@ class OreType{
 	 * over the height range.
 	 *
 	 * @param Block $type the block type
-	 * @param int $min_y the minimum height
-	 * @param int $max_y the maximum height
+	 * @param int $minY the minimum height
+	 * @param int $maxY the maximum height
 	 * @param int $amount the size of a vein
-	 * @param int $target_type the block this can replace
+	 * @param int $targetType the block this can replace
 	 */
-	public function __construct(Block $type, int $min_y, int $max_y, int $amount, int $target_type = BlockLegacyIds::STONE){
+	public function __construct(Block $type, int $minY, int $maxY, int $amount, int $targetType = BlockLegacyIds::STONE){
 		$this->type = $type;
-		$this->min_y = $min_y;
-		$this->max_y = $max_y;
+		$this->minY = $minY;
+		$this->maxY = $maxY;
 		$this->amount = ++$amount;
-		$this->target_type = $target_type;
+		$this->targetType = $targetType;
 	}
 
 	public function getType() : Block{
@@ -40,11 +40,11 @@ class OreType{
 	}
 
 	public function getMinY() : int{
-		return $this->min_y;
+		return $this->minY;
 	}
 
 	public function getMaxY() : int{
-		return $this->max_y;
+		return $this->maxY;
 	}
 
 	public function getAmount() : int{
@@ -52,7 +52,7 @@ class OreType{
 	}
 
 	public function getTargetType() : int{
-		return $this->target_type;
+		return $this->targetType;
 	}
 
 	/**
@@ -62,8 +62,8 @@ class OreType{
 	 * @return int a random height for this ore
 	 */
 	public function getRandomHeight(Random $random) : int{
-		return $this->min_y === $this->max_y
-			? $random->nextBoundedInt($this->min_y) + $random->nextBoundedInt($this->min_y)
-			: $random->nextBoundedInt($this->max_y - $this->min_y) + $this->min_y;
+		return $this->minY === $this->maxY
+			? $random->nextBoundedInt($this->minY) + $random->nextBoundedInt($this->minY)
+			: $random->nextBoundedInt($this->maxY - $this->minY) + $this->minY;
 	}
 }

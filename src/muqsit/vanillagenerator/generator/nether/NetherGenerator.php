@@ -17,6 +17,7 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use function intdiv;
 
 /**
  * @phpstan-extends VanillaGenerator<NetherWorldOctaves<PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator>>
@@ -202,7 +203,7 @@ class NetherGenerator extends VanillaGenerator{
 			$nv = [];
 			for($i = 0; $i < $k_max; ++$i){
 				$nv[$i] = MathHelper::getInstance()->cos($i * M_PI * 6.0 / $k_max) * 2.0;
-				$nh = $i > $k_max / 2 ? $k_max - 1 - $i : $i;
+				$nh = $i > intdiv($k_max, 2) ? $k_max - 1 - $i : $i;
 				if($nh < 4.0){
 					$nh = 4.0 - $nh;
 					$nv[$i] -= $nh * $nh * $nh * 10.0;

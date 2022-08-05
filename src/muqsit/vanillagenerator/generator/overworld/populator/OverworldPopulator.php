@@ -31,6 +31,7 @@ use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 use ReflectionClass;
 use function array_key_exists;
+use function array_values;
 
 class OverworldPopulator implements Populator{
 

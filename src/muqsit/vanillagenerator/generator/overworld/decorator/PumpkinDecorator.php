@@ -11,6 +11,7 @@ use pocketmine\math\Facing;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use function count;
 
 class PumpkinDecorator extends Decorator{
 

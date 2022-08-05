@@ -8,7 +8,9 @@ use pocketmine\utils\Random;
 
 abstract class BasePerlinNoiseGenerator extends NoiseGenerator{
 
-	/** @var int[][] */
+	/**
+	 * @var int[][]
+	 */
 	protected const GRAD3 = [
 		[1, 1, 0], [-1, 1, 0], [1, -1, 0], [-1, -1, 0],
 		[1, 0, 1], [-1, 0, 1], [1, 0, -1], [-1, 0, -1],

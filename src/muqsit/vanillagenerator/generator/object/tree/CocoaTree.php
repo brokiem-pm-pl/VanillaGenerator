@@ -10,6 +10,7 @@ use pocketmine\math\Facing;
 use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
+use function count;
 
 class CocoaTree extends JungleTree{
 

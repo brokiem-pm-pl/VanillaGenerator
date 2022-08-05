@@ -10,13 +10,12 @@ use pocketmine\block\utils\TreeType;
 use pocketmine\utils\Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
+use function abs;
 
 class JungleBush extends GenericTree{
 
 	/**
 	 * Initializes this bush, preparing it to attempt to generate.
-	 * @param Random $random
-	 * @param BlockTransaction $transaction
 	 */
 	public function __construct(Random $random, BlockTransaction $transaction){
 		parent::__construct($random, $transaction);

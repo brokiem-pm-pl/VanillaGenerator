@@ -15,9 +15,7 @@ use pocketmine\world\format\Chunk;
 class DoublePlantDecorator extends Decorator{
 
 	/**
-	 * @param Random $random
 	 * @param DoublePlantDecoration[] $decorations
-	 * @return DoublePlant|null
 	 */
 	private static function getRandomDoublePlant(Random $random, array $decorations) : ?DoublePlant{
 		$totalWeight = 0;

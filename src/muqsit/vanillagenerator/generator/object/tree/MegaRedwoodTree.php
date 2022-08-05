@@ -8,6 +8,7 @@ use pocketmine\block\utils\TreeType;
 use pocketmine\utils\Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
+use function floor;
 
 class MegaRedwoodTree extends MegaJungleTree{
 

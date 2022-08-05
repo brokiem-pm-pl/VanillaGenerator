@@ -15,9 +15,7 @@ use pocketmine\world\format\Chunk;
 class FlowerDecorator extends Decorator{
 
 	/**
-	 * @param Random $random
 	 * @param FlowerDecoration[] $decorations
-	 * @return Block|null
 	 */
 	private static function getRandomFlower(Random $random, array $decorations) : ?Block{
 		$total_weight = 0;

@@ -9,8 +9,6 @@ use pocketmine\utils\Random;
 class SimplexOctaveGenerator extends BaseOctaveGenerator{
 
 	/**
-	 * @param Random $rand
-	 * @param int $octaves
 	 * @return SimplexNoiseGenerator[]
 	 */
 	private static function createOctaves(Random $rand, int $octaves) : array{
@@ -28,7 +26,6 @@ class SimplexOctaveGenerator extends BaseOctaveGenerator{
 	/**
 	 * Creates a simplex octave generator for the given {@link Random}
 	 *
-	 * @param Random $rand
 	 * @param int $octaves Amount of octaves to create
 	 */
 	public function __construct(Random $rand, int $octaves){

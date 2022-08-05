@@ -7,12 +7,11 @@ namespace muqsit\vanillagenerator\generator\noise\glowstone;
 use muqsit\vanillagenerator\generator\noise\bukkit\NoiseGenerator;
 use muqsit\vanillagenerator\generator\noise\bukkit\OctaveGenerator;
 use pocketmine\utils\Random;
+use function array_fill;
 
 class PerlinOctaveGenerator extends OctaveGenerator{
 
 	/**
-	 * @param Random $rand
-	 * @param int $octaves
 	 * @return PerlinNoise[]
 	 */
 	protected static function createOctaves(Random $rand, int $octaves) : array{
@@ -30,11 +29,6 @@ class PerlinOctaveGenerator extends OctaveGenerator{
 	}
 
 	/**
-	 * @param Random $random
-	 * @param int $octaves
-	 * @param int $size_x
-	 * @param int $size_y
-	 * @param int $size_z
 	 * @return PerlinOctaveGenerator
 	 */
 	public static function fromRandomAndOctaves(Random $random, int $octaves, int $size_x, int $size_y, int $size_z) : self{

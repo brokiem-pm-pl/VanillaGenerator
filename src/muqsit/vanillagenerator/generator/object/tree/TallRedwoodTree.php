@@ -9,6 +9,7 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
+use function abs;
 
 class TallRedwoodTree extends RedwoodTree{
 

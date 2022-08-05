@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\biomegrid;
 
+use function count;
+
 class ZoomMapLayer extends MapLayer{
 
 	public const NORMAL = 0;

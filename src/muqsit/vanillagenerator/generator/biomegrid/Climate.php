@@ -14,9 +14,7 @@ class Climate{
 	public int $final_value;
 
 	/**
-	 * @param int $value
 	 * @param int[] $cross_types
-	 * @param int $final_value
 	 */
 	public function __construct(int $value, array $cross_types, int $final_value){
 		$this->value = $value;

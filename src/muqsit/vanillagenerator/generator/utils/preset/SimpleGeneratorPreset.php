@@ -5,6 +5,15 @@ declare(strict_types=1);
 namespace muqsit\vanillagenerator\generator\utils\preset;
 
 use InvalidArgumentException;
+use function array_key_exists;
+use function explode;
+use function floor;
+use function is_float;
+use function is_int;
+use function is_numeric;
+use function is_string;
+use function rtrim;
+use function str_contains;
 
 final class SimpleGeneratorPreset implements GeneratorPreset{
 
@@ -18,9 +27,6 @@ final class SimpleGeneratorPreset implements GeneratorPreset{
 	 *   * worldtype=normal
 	 *   * worldtype=amplified
 	 *   * worldtype=largebiomes,environment=overworld
-	 *
-	 * @param string $preset
-	 * @return self
 	 */
 	public static function parse(string $preset) : self{
 		if($preset === ""){

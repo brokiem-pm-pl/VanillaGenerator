@@ -14,6 +14,8 @@ use pocketmine\utils\Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\World;
+use function abs;
+use function array_flip;
 use function array_key_exists;
 
 class GenericTree extends TerrainObject{
@@ -58,8 +60,6 @@ class GenericTree extends TerrainObject{
 
 	/**
 	 * Sets the block data values for this tree's blocks.
-	 *
-	 * @param TreeType $type
 	 */
 	final protected function setType(TreeType $type) : void{
 		$magic_number = $type->getMagicNumber();
@@ -128,11 +128,6 @@ class GenericTree extends TerrainObject{
 	 * Attempts to grow this tree at its current location. If successful, the associated {@link
 	 * BlockStateDelegate} is instructed to set blocks to wood and leaves.
 	 *
-	 * @param ChunkManager $world
-	 * @param Random $random
-	 * @param int $source_x
-	 * @param int $source_y
-	 * @param int $source_z
 	 * @return bool whether successfully grown
 	 */
 	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{

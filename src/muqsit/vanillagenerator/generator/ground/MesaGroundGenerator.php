@@ -12,6 +12,13 @@ use pocketmine\block\utils\DyeColor;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
+use function abs;
+use function array_fill;
+use function ceil;
+use function count;
+use function max;
+use function min;
+use function round;
 
 class MesaGroundGenerator extends GroundGenerator{
 

@@ -36,10 +36,6 @@ class WhittakerMapLayer extends MapLayer{
 	}
 
 	/**
-	 * @param int $x
-	 * @param int $z
-	 * @param int $size_x
-	 * @param int $size_z
 	 * @return int[]
 	 */
 	private function swapValues(int $x, int $z, int $size_x, int $size_z) : array{
@@ -75,10 +71,6 @@ class WhittakerMapLayer extends MapLayer{
 	}
 
 	/**
-	 * @param int $x
-	 * @param int $z
-	 * @param int $size_x
-	 * @param int $size_z
 	 * @return int[]
 	 */
 	private function modifyValues(int $x, int $z, int $size_x, int $size_z) : array{

@@ -73,13 +73,6 @@ class PerlinNoise extends BasePerlinNoiseGenerator{
 
 	/**
 	 * @param float[] $noise
-	 * @param float $x
-	 * @param float $z
-	 * @param int $size_x
-	 * @param int $size_z
-	 * @param float $scale_x
-	 * @param float $scale_z
-	 * @param float $amplitude
 	 * @return float[]
 	 */
 	protected function get2dNoise(array &$noise, float $x, float $z, int $size_x, int $size_z, float $scale_x, float $scale_z, float $amplitude) : array{
@@ -114,16 +107,6 @@ class PerlinNoise extends BasePerlinNoiseGenerator{
 
 	/**
 	 * @param float[] $noise
-	 * @param float $x
-	 * @param float $y
-	 * @param float $z
-	 * @param int $size_x
-	 * @param int $size_y
-	 * @param int $size_z
-	 * @param float $scale_x
-	 * @param float $scale_y
-	 * @param float $scale_z
-	 * @param float $amplitude
 	 * @return float[]
 	 */
 	protected function get3dNoise(array &$noise, float $x, float $y, float $z, int $size_x, int $size_y, int $size_z, float $scale_x, float $scale_y, float $scale_z, float $amplitude) : array{

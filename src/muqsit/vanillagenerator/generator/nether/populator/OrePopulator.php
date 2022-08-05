@@ -15,7 +15,6 @@ class OrePopulator extends OverworldOrePopulator{
 	/**
 	 * @noinspection MagicMethodsValidityInspection
 	 * @noinspection PhpMissingParentConstructorInspection
-	 * @param int $world_height
 	 */
 	public function __construct(int $world_height = World::Y_MAX){
 		$this->addOre(new OreType(VanillaBlocks::NETHER_QUARTZ_ORE(), 10, $world_height - (10 * ($world_height >> 7)), 13, BlockLegacyIds::NETHERRACK), 16);

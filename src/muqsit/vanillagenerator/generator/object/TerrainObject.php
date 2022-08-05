@@ -16,10 +16,6 @@ abstract class TerrainObject{
 	 * Removes weak blocks like grass, shrub, flower or mushroom directly above the given block, if present.
 	 * Does not drop an item.
 	 *
-	 * @param ChunkManager $world
-	 * @param int $x
-	 * @param int $y
-	 * @param int $z
 	 * @return bool whether a block was removed; false if none was present
 	 */
 	public static function killWeakBlocksAbove(ChunkManager $world, int $x, int $y, int $z) : bool{

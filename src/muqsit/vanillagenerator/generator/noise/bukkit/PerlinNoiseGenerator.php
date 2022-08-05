@@ -10,8 +10,6 @@ class PerlinNoiseGenerator extends BasePerlinNoiseGenerator{
 
 	/**
 	 * Gets the singleton unseeded instance of this generator
-	 *
-	 * @return PerlinNoiseGenerator
 	 */
 	public static function getInstance() : PerlinNoiseGenerator{
 		return self::$instance ??= new PerlinNoiseGenerator();

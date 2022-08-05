@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace muqsit\vanillagenerator\generator\overworld;
 
 use InvalidArgumentException;
+use function strtolower;
 
 final class WorldType{
 

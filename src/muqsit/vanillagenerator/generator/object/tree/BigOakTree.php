@@ -10,7 +10,12 @@ use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
+use function abs;
 use function array_key_exists;
+use function hypot;
+use function max;
+use function min;
+use function sqrt;
 
 class BigOakTree extends GenericTree{
 
@@ -125,11 +130,6 @@ class BigOakTree extends GenericTree{
 	}
 
 	/**
-	 * @param int $block_x
-	 * @param int $block_y
-	 * @param int $block_z
-	 * @param ChunkManager $world
-	 * @param Random $random
 	 * @return BigOakTreeLeafNode[]
 	 */
 	private function generateLeafNodes(int $block_x, int $block_y, int $block_z, ChunkManager $world, Random $random) : array{

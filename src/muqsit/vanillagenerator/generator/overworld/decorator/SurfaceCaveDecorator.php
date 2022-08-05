@@ -12,6 +12,10 @@ use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use function abs;
+use function count;
+use function deg2rad;
+use function floor;
 
 class SurfaceCaveDecorator extends Decorator{
 

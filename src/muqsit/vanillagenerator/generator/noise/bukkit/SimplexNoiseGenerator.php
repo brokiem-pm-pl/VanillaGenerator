@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpIfWithCommonPartsInspection */
+<?php
+
+/** @noinspection PhpIfWithCommonPartsInspection */
 /** @noinspection PhpIfWithCommonPartsInspection */
 
 declare(strict_types=1);
@@ -47,20 +49,12 @@ class SimplexNoiseGenerator extends BasePerlinNoiseGenerator{
 	protected static float $offset_w;
 	private static ?SimplexNoiseGenerator $instance;
 
-	/**
-	 * @return SimplexNoiseGenerator
-	 */
 	public static function getInstance() : SimplexNoiseGenerator{
 		return self::$instance ??= new SimplexNoiseGenerator();
 	}
 
 	/**
 	 * @param int[]|float[] $g
-	 * @param float $x
-	 * @param float $y
-	 * @param float $z
-	 * @param float $w
-	 * @return float
 	 */
 	protected static function dot(array $g, float $x, float $y, float $z = 0.0, float $w = 0.0) : float{
 		$result = $g[0] * $x + $g[1] * $y;

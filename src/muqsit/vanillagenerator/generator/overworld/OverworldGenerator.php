@@ -29,7 +29,11 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use function abs;
 use function array_key_exists;
+use function max;
+use function min;
+use function sqrt;
 
 /**
  * @phpstan-extends VanillaGenerator<WorldOctaves<PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, SimplexOctaveGenerator>>
@@ -45,7 +49,6 @@ class OverworldGenerator extends VanillaGenerator{
 	/**
 	 * @param int $x 0-4
 	 * @param int $z 0-4
-	 * @return int
 	 */
 	private static function elevationWeightHash(int $x, int $z) : int{
 		return ($x << 3) | $z;
@@ -55,7 +58,6 @@ class OverworldGenerator extends VanillaGenerator{
 	 * @param int $i 0-4
 	 * @param int $j 0-4
 	 * @param int $k 0-32
-	 * @return int
 	 */
 	private static function densityHash(int $i, int $j, int $k) : int{
 		return ($k << 6) | ($j << 3) | $i;
@@ -286,8 +288,6 @@ class OverworldGenerator extends VanillaGenerator{
 	}
 
 	/**
-	 * @param int $x
-	 * @param int $z
 	 * @return float[]
 	 */
 	protected function generateTerrainDensity(int $x, int $z) : array{

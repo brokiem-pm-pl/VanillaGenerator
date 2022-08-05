@@ -25,7 +25,6 @@ abstract class MapLayer{
 			return new MapLayerPair(new ConstantBiomeMapLayer($seed, BiomeIds::SKY), null);
 		}
 
-
 		$zoom = 2;
 		if($world_type === WorldType::LARGE_BIOMES){
 			$zoom = 4;
@@ -105,10 +104,6 @@ abstract class MapLayer{
 	}
 
 	/**
-	 * @param int $x
-	 * @param int $z
-	 * @param int $size_x
-	 * @param int $size_z
 	 * @return int[]
 	 */
 	abstract public function generateValues(int $x, int $z, int $size_x, int $size_z) : array;

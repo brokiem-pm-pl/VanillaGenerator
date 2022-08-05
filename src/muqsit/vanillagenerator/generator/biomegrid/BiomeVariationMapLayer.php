@@ -7,6 +7,7 @@ namespace muqsit\vanillagenerator\generator\biomegrid;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use ReflectionClass;
 use function array_key_exists;
+use function count;
 
 class BiomeVariationMapLayer extends MapLayer{
 

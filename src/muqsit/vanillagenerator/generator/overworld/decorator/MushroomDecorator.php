@@ -11,16 +11,14 @@ use pocketmine\block\Dirt;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use function assert;
 
 class MushroomDecorator extends Decorator{
 
-	/** @var Block */
 	private Block $type;
 
-	/** @var bool */
 	private bool $fixed_height_range = false;
 
-	/** @var float */
 	private float $density = 0.0;
 
 	/**

@@ -12,10 +12,10 @@ use pocketmine\block\BlockLegacyMetadata;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use function abs;
 
 class TallGrassDecorator extends Decorator{
 
-	/** @var float */
 	private float $fern_density = 0.0;
 
 	final public function setFernDensity(float $fern_density) : void{

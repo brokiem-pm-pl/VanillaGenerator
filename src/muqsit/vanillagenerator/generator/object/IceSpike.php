@@ -8,8 +8,12 @@ use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
+use function abs;
 use function array_key_exists;
+use function ceil;
 use function intdiv;
+use function max;
+use function min;
 
 class IceSpike extends TerrainObject{
 

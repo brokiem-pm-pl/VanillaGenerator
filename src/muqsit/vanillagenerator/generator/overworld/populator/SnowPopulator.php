@@ -23,6 +23,7 @@ class SnowPopulator implements Populator {
 			VanillaBlocks::DANDELION()->getFullId(),
 			VanillaBlocks::POPPY()->getFullId(),
 			VanillaBlocks::DOUBLE_TALLGRASS()->getFullId(),
+			VanillaBlocks::LARGE_FERN()->getFullId(),
 			VanillaBlocks::BROWN_MUSHROOM()->getFullId(),
 			VanillaBlocks::RED_MUSHROOM()->getFullId(),
 			VanillaBlocks::ROSE_BUSH()->getFullId(),

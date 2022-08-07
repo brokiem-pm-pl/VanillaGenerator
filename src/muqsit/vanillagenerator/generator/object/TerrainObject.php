@@ -20,14 +20,12 @@ abstract class TerrainObject{
 	 */
 	public static function killWeakBlocksAbove(ChunkManager $world, int $x, int $y, int $z) : bool{
 		$changed = false;
-		for($curY = $y + 1; $curY < World::Y_MAX; ++$curY){
-			$block = $world->getBlockAt($x, $curY, $z);
-			if(!($block instanceof Flowable)){
-				break;
+		for($i = 1; $i < 4; ++$i) {
+			$blockAbove = $world->getBlockAt($x, $y + $i, $z);
+			if($blockAbove instanceof Flowable) {
+				$world->setBlockAt($x, $y + $i, $z, VanillaBlocks::AIR());
+				$changed = true;
 			}
-			$world->setBlockAt($x, $curY, $z, VanillaBlocks::AIR());
-			$changed = true;
-			++$curY;
 		}
 
 		return $changed;

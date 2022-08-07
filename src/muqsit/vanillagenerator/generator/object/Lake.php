@@ -10,15 +10,18 @@ use pocketmine\block\Block;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\Liquid;
 use pocketmine\block\VanillaBlocks;
+use pocketmine\block\Wood;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 use function array_key_exists;
+use function intdiv;
 
 class Lake extends TerrainObject{
-
-	private const MAX_DIAMETER = 16.0;
-	private const MAX_HEIGHT = 8.0;
+	private const MAX_DIAMETER_INT = 16;
+	private const MAX_HEIGHT_INT = 8;
+	private const MAX_DIAMETER =  self::MAX_DIAMETER_INT / 1.0;
+	private const MAX_HEIGHT = self::MAX_HEIGHT_INT / 1.0;
 
 	/** @var int[] */
 	private static array $MYCEL_BIOMES;
@@ -37,8 +40,16 @@ class Lake extends TerrainObject{
 	}
 
 	public function generate(ChunkManager $world, Random $random, int $sourceX, int $sourceY, int $sourceZ) : bool{
+		$heightHalf = intdiv(self::MAX_HEIGHT_INT, 2);
+		$diameterHalf = intdiv(self::MAX_DIAMETER_INT, 2);
+
+		$dirt = VanillaBlocks::DIRT()->getFullId();
+		$ice = VanillaBlocks::ICE()->getFullId();
+		$packedIce = VanillaBlocks::PACKED_ICE()->getFullId();
+		$stillWater = VanillaBlocks::WATER()->setStill()->getFullId();
+
 		$succeeded = false;
-		$sourceY -= (int) self::MAX_HEIGHT / 2;
+		$sourceY -= $heightHalf;
 
 		$lakeMap = [];
 		for($n = 0; $n < $random->nextBoundedInt(4) + 4; ++$n){
@@ -48,14 +59,14 @@ class Lake extends TerrainObject{
 			$dx = $random->nextFloat() * (self::MAX_DIAMETER - $sizeX - 2) + 1 + $sizeX / 2.0;
 			$dy = $random->nextFloat() * (self::MAX_HEIGHT - $sizeY - 4) + 2 + $sizeY / 2.0;
 			$dz = $random->nextFloat() * (self::MAX_DIAMETER - $sizeZ - 2) + 1 + $sizeZ / 2.0;
-			for($x = 1; $x < (int) self::MAX_DIAMETER - 1; ++$x){
-				for($z = 1; $z < (int) self::MAX_DIAMETER - 1; ++$z){
-					for($y = 1; $y < (int) self::MAX_HEIGHT - 1; ++$y){
-						$nx = ($x - $dx) / ($sizeX / 2.0);
+			for($x = 1; $x < self::MAX_DIAMETER_INT - 1; ++$x){
+				for($z = 1; $z < self::MAX_DIAMETER_INT - 1; ++$z){
+					for($y = 1; $y < self::MAX_HEIGHT_INT - 1; ++$y){
+						$nx = 2.0 * ($x - $dx) / $sizeX;
 						$nx *= $nx;
-						$ny = ($y - $dy) / ($sizeY / 2.0);
+						$ny = 2.0 * ($y - $dy) / $sizeY;
 						$ny *= $ny;
-						$nz = ($z - $dz) / ($sizeZ / 2.0);
+						$nz = 2.0 * ($z - $dz) / $sizeZ;
 						$nz *= $nz;
 						if($nx + $ny + $nz < 1.0){
 							$this->setLakeBlock($lakeMap, $x, $y, $z);
@@ -72,13 +83,12 @@ class Lake extends TerrainObject{
 
 		/** @var Chunk $chunk */
 		$chunk = $world->getChunk($sourceX >> 4, $sourceZ >> 4);
-		$biome = $chunk->getBiomeId(($sourceX + 8 + (int) self::MAX_DIAMETER / 2) & 0x0f, ($sourceZ + 8 + (int) self::MAX_DIAMETER / 2) & 0x0f);
+		$biome = $chunk->getBiomeId(($sourceX + 8 + $diameterHalf) & 0x0f, ($sourceZ + 8 + $diameterHalf) & 0x0f);
 		$mycelBiome = array_key_exists($biome, self::$MYCEL_BIOMES);
 
-		$maxDiameter = (int) self::MAX_DIAMETER;
-		for($x = 0; $x < $maxDiameter; ++$x){
-			for($z = 0; $z < $maxDiameter; ++$z){
-				for($y = 0; $y < $maxDiameter; ++$y){
+		for($x = 0; $x < self::MAX_DIAMETER_INT; ++$x){
+			for($z = 0; $z < self::MAX_DIAMETER_INT; ++$z){
+				for($y = 0; $y < self::MAX_HEIGHT_INT; ++$y){
 					if(!$this->isLakeBlock($lakeMap, $x, $y, $z)){
 						continue;
 					}
@@ -86,23 +96,22 @@ class Lake extends TerrainObject{
 					$type = $this->type;
 					$block = $world->getBlockAt($sourceX + $x, $sourceY + $y, $sourceZ + $z);
 					$blockAbove = $world->getBlockAt($sourceX + $x, $sourceY + $y + 1, $sourceZ + $z);
-					$blockType = $block->getId();
-					$blockAboveType = $blockAbove->getId();
-					if(($blockType === BlockLegacyIds::DIRT && ($blockAboveType === BlockLegacyIds::LOG || $blockAboveType === BlockLegacyIds::LOG2)) || $blockType === BlockLegacyIds::LOG || $blockType === BlockLegacyIds::LOG2){
+					$blockType = $block->getFullId();
+					if(($blockType === $dirt && $blockAbove instanceof Wood) || $block instanceof Wood){
 						continue;
 					}
 
-					if($y >= (int) (self::MAX_HEIGHT / 2)){
+					if($y >= $heightHalf){
 						$type = VanillaBlocks::AIR();
 						if(TerrainObject::killWeakBlocksAbove($world, $sourceX + $x, $sourceY + $y, $sourceZ + $z)){
 							break;
 						}
 
-						if(($blockType === BlockLegacyIds::ICE || $blockType === BlockLegacyIds::PACKED_ICE) && $this->type->getId() === BlockLegacyIds::STILL_WATER){
+						if(($blockType === $ice || $blockType === $packedIce) && $this->type->getFullId() === $stillWater){
 							$type = $block;
 						}
-					}elseif($y === (int) (self::MAX_HEIGHT / 2 - 1)){
-						if($type->getId() === BlockLegacyIds::STILL_WATER && BiomeClimateManager::isCold($chunk->getBiomeId($x & 0x0f, $z & 0x0f), $sourceX + $x, $y, $sourceZ + $z)){
+					}elseif($y === $heightHalf - 1){
+						if($type->getFullId() === $stillWater && BiomeClimateManager::isCold($chunk->getBiomeId($x & 0x0f, $z & 0x0f), $sourceX + $x, $y, $sourceZ + $z)){
 							$type = VanillaBlocks::ICE();
 						}
 					}
@@ -111,9 +120,9 @@ class Lake extends TerrainObject{
 			}
 		}
 
-		for($x = 0; $x < (int) self::MAX_DIAMETER; ++$x){
-			for($z = 0; $z < (int) self::MAX_DIAMETER; ++$z){
-				for($y = (int) self::MAX_HEIGHT / 2; $y < (int) self::MAX_HEIGHT; ++$y){
+		for($x = 0; $x < self::MAX_DIAMETER_INT; ++$x){
+			for($z = 0; $z < self::MAX_DIAMETER_INT; ++$z){
+				for($y = $heightHalf; $y < self::MAX_HEIGHT_INT; ++$y){
 					if(!$this->isLakeBlock($lakeMap, $x, $y, $z)){
 						continue;
 					}
@@ -133,6 +142,7 @@ class Lake extends TerrainObject{
 	 * @param int[] $lakeMap
 	 */
 	private function canPlace(array $lakeMap, ChunkManager $world, int $sourceX, int $sourceY, int $sourceZ) : bool{
+		$ice = VanillaBlocks::ICE()->getFullId();
 		for($x = 0; $x < self::MAX_DIAMETER; ++$x){
 			for($z = 0; $z < self::MAX_DIAMETER; ++$z){
 				for($y = 0; $y < self::MAX_HEIGHT; ++$y){
@@ -146,7 +156,7 @@ class Lake extends TerrainObject{
 						continue;
 					}
 					$block = $world->getBlockAt($sourceX + $x, $sourceY + $y, $sourceZ + $z);
-					if($y >= self::MAX_HEIGHT / 2 && (($block instanceof Liquid) || $block->getId() === BlockLegacyIds::ICE)){
+					if($y >= self::MAX_HEIGHT / 2 && (($block instanceof Liquid) || $block->getFullId() === $ice)){
 						return false; // there's already some liquids above
 					}
 					if($y < self::MAX_HEIGHT / 2 && !$block->isSolid() && $block->getId() !== $this->type->getId()){
@@ -163,14 +173,14 @@ class Lake extends TerrainObject{
 	 * @param int[] $lakeMap
 	 */
 	private function isLakeBlock(array $lakeMap, int $x, int $y, int $z) : bool{
-		return ($lakeMap[($x * (int) self::MAX_DIAMETER + $z) * (int) self::MAX_HEIGHT + $y] ?? 0) !== 0;
+		return ($lakeMap[($x * self::MAX_DIAMETER_INT + $z) * self::MAX_HEIGHT_INT + $y] ?? 0) !== 0;
 	}
 
 	/**
 	 * @param int[] $lakeMap
 	 */
 	private function setLakeBlock(array &$lakeMap, int $x, int $y, int $z) : void{
-		$lakeMap[($x * (int) self::MAX_DIAMETER + $z) * (int) self::MAX_HEIGHT + $y] = 1;
+		$lakeMap[($x * self::MAX_DIAMETER_INT + $z) * self::MAX_HEIGHT_INT + $y] = 1;
 	}
 }
 Lake::init();

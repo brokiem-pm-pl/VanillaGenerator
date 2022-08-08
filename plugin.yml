@@ -1,5 +1,5 @@
 name: VanillaGenerator
-antigen: muqsit\vanillagenerator
+main: muqsit\vanillagenerator
 api: 4.0.0
 version: 0.0.5
 author: Muqsit
